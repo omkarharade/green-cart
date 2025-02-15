@@ -14,16 +14,19 @@ function View() {
     useEffect(() => {
 
         const userId = sessionStorage.getItem("userId")
-        const isAdmin = sessionStorage.getItem("isAdmin")
-        
+        const isAdmin = JSON.parse(sessionStorage.getItem("isAdmin"));
+
+        console.log("isAdmin ==== ", isAdmin)
+
+        console.log("inside useEffect in view", " what is type of isAdmin", typeof isAdmin)
+
         if(isAdmin){
-            router.push("/view/admin");
+            router.push("/view/admin")
         }
         else{
-            router.push("/view/customer");
+            router.push("/view/customer")
         }
-
-    })
+    },[])
 
 	return <div> you are being redirected . . . . .</div>;
 }

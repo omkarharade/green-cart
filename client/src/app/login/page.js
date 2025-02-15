@@ -30,13 +30,13 @@ function Login(props) {
             console.log("Logged in successfully");
             sessionStorage.setItem("isUserAuthenticated", true);
             sessionStorage.setItem("userId", res.data[0].userId);
-            sessionStorage.setItem("isAdmin", isUserAdmin);
+            sessionStorage.setItem("isAdmin", isUserAdmin ? true: false);
             sessionStorage.setItem("jwt_token", res.data[0].token);
             sessionStorage.setItem("jwt_refresh_token", res.data[0].refreshToken);
             TokenRefresher(res.data[0].refreshToken);
             
             const customerId = res.data[0].userId;
-            const isAdmin = res.data[0].isAdmin;
+            const isAdmin = sessionStorage.getItem("isAdmin") ? true: false;
 
             const userDetails = {
                 isAdmin: isAdmin ? true: false,
@@ -45,6 +45,8 @@ function Login(props) {
 
             const token = res.data[0].token;
             const refreshToken = res.data[0].refreshToken;
+
+            console.log("type of isAdmin", typeof isAdmin)
             console.log("userDetails == ", userDetails);
             console.log("token == ", token);
             console.log("refresh token == ", refreshToken);
