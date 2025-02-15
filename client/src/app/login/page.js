@@ -35,12 +35,12 @@ function Login(props) {
             sessionStorage.setItem("jwt_refresh_token", res.data[0].refreshToken);
             TokenRefresher(res.data[0].refreshToken);
             
-            const customerId = res.data[0].userId;
+            const userId = res.data[0].userId;
             const isAdmin = sessionStorage.getItem("isAdmin") ? true: false;
 
             const userDetails = {
                 isAdmin: isAdmin ? true: false,
-                customerId: customerId
+                userId: userId
             }
 
             const token = res.data[0].token;

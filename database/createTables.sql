@@ -13,10 +13,11 @@ CREATE TABLE product (
     `name` VARCHAR(30) NOT NULL,
     description TINYTEXT,
     price DECIMAL(10,2),
+    imageURL VARCHAR(255),
     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE shopingCart (
+CREATE TABLE shoppingCart (
 	userId INT(5),
     productId INT(5),
     quantity INT,
@@ -40,7 +41,7 @@ CREATE TABLE productsInOrder (
 );
 
 
-ALTER TABLE shopingCart
+ALTER TABLE shoppingCart
 ADD FOREIGN KEY (userId) REFERENCES users (userId),
 ADD FOREIGN KEY (productId) REFERENCES product (productId);
 

@@ -39,8 +39,8 @@ exports.allOrderByProductId = (req, res) => {
 };
 
 exports.createProduct = (req, res) => {
-    const { name, price, description } = req.body;
-    productModel.createProduct(name, price, description)
+    const { name, price, description, imageURL } = req.body;
+    productModel.createProduct(name, price, description, imageURL)
         .then(result => {
             res.send(result);
         })

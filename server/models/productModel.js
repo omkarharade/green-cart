@@ -49,11 +49,11 @@ exports.allOrderByProductId = (productId) => {
 };
 
 
-exports.createProduct = (name, price, description) => {
+exports.createProduct = (name, price, description, imageURL) => {
     return new Promise((resolve, reject) => {
         pool.query(
-            "INSERT INTO product (name, price, description) VALUES (?,?,?);",
-            [name, price, description],
+            "INSERT INTO product (name, price, description, imageURL) VALUES (?,?,?,?);",
+            [name, price, description, imageURL],
             (err, result) => {
                 if (err) {
                     reject(err);
@@ -65,11 +65,13 @@ exports.createProduct = (name, price, description) => {
     });
 };
 
-exports.updateProduct = (productId, name, price, description) => {
+// image url added 
+
+exports.updateProduct = (productId, name, price, description, imageURL) => {
     return new Promise((resolve, reject) => {
         pool.query(
-            "UPDATE product SET name = ?, price = ?, description = ? WHERE productId = ?",
-            [name, price, description, productId],
+            "UPDATE product SET name = ?, price = ?, description = ? WHERE productId = ? imageURL = ?",
+            [name, price, description, productId, imageURL],
             (err, result) => {
                 if (err) {
                     reject(err);
@@ -81,6 +83,7 @@ exports.updateProduct = (productId, name, price, description) => {
     });
 };
 
+// image url not needed
 exports.deleteProduct = (productId) => {
     return new Promise((resolve, reject) => {
         pool.query("DELETE FROM product WHERE productId = ?", [productId], (err, result) => {
