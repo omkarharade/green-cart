@@ -17,9 +17,10 @@ exports.getShoppingCart = (req, res) => {
 };
 
 exports.addToCart = (req, res) => {
-    const { customerId, productId, quantity, isPresent } = req.body;
-    cartModel.addToCart(customerId, productId, quantity, isPresent)
+    const { userId, productId, quantity, isPresent } = req.body;
+    cartModel.addToCart(userId, productId, quantity, isPresent)
         .then(result => {
+            console.log("product added to cart")
             res.send(result);
         })
         .catch(err => {

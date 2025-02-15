@@ -4,74 +4,70 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getBaseURL } from "../../../apiConfig";
 
+
 const Navbar = () => {
-	const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-	const navLinks = [
-		"Shop All",
-		"Care",
-		"Cleaning",
-		"Essentials",
-		// "Home & Living",
-		// "Work",
-		// "Travel",
-		// "Gift",
-	];
+  const navLinks = [
+	{ name: "products", route: "/view/customer" },
+	{ name: "cart", route: "/view/customer/cart" },
+	{ name: "past orders", route: "/view/customer/orders" },
+];
 
-	return (
-		<nav className="bg-green-700 p-4 text-white">
-			<div className="flex justify-between items-center">
-				{/* Logo */}
-				<div className="text-2xl font-bold">GreenLiving</div>
+  return (
+	<nav className="bg-green-700 p-4 text-white">
+	  <div className="flex justify-between items-center">
+		{/* Logo */}
+		<div className="text-2xl font-bold">GreenLiving</div>
 
-				{/* Navigation Links - Hidden on Mobile */}
-				<div className="hidden md:flex space-x-4">
-					{navLinks.map((link, index) => (
-						<a key={index} href="#" className="hover:underline">
-							{link}
-						</a>
-					))}
-				</div>
+		{/* Navigation Links - Hidden on Mobile */}
+		<div className="hidden md:flex space-x-4">
+		  {navLinks.map((link, index) => (
+			<a key={index} href={link.route} className="hover:underline">
+			  {link.name}
+			</a>
+		  ))}
+		</div>
 
-				<div className="flex flex-row">
-					{/* Search & Icons */}
-					<div className="flex space-x-4">
-						<input
-							type="text"
-							placeholder="Search..."
-							className="p-1 rounded text-black"
-						/>
-						<i className="fas fa-search cursor-pointer"></i>
-						<a href="login.html">
-							<i className="fas fa-user cursor-pointer"></i>
-						</a>
-						<a href="cart.html">
-							<i className="fas fa-shopping-cart cursor-pointer"></i>
-						</a>
-					</div>
+		<div className="flex flex-row">
+		  {/* Search & Icons */}
+		  <div className="flex space-x-4">
+			<input
+			  type="text"
+			  placeholder="Search..."
+			  className="p-1 rounded text-black"
+			/>
+			<i className="fas fa-search cursor-pointer"></i>
+			<a href="login.html">
+			  <i className="fas fa-user cursor-pointer"></i>
+			</a>
+			<a href="cart.html">
+			  <i className="fas fa-shopping-cart cursor-pointer"></i>
+			</a>
+		  </div>
 
-					{/* Hamburger Icon for Mobile */}
-					<button
-						className="md:hidden text-white text-2xl"
-						onClick={() => setIsOpen(!isOpen)}
-					>
-						☰
-					</button>
-				</div>
-			</div>
+		  {/* Hamburger Icon for Mobile */}
+		  <button
+			className="md:hidden text-white text-2xl"
+			onClick={() => setIsOpen(!isOpen)}
+		  >
+			☰
+		  </button>
+		</div>
+	  </div>
 
-			{/* Mobile Menu (Shown when isOpen is true) */}
-			{isOpen && (
-				<div className="md:hidden flex flex-col space-y-2 mt-4 bg-green-800 p-4 rounded">
-					{navLinks.map((link, index) => (
-						<a key={index} href="#" className="block hover:underline">
-							{link}
-						</a>
-					))}
-				</div>
-			)}
-		</nav>
-	);
+	  {/* Mobile Menu (Shown when isOpen is true) */}
+	  {isOpen && (
+		<div className="md:hidden flex flex-col space-y-2 mt-4 bg-green-800 p-4 rounded">
+		  {navLinks.map((link, index) => (
+			<a key={index} href="#" className="block hover:underline">
+			  {link}
+			</a>
+		  ))}
+		</div>
+	  )}
+	</nav>
+  );
 };
 
 const Slider = () => {
@@ -207,169 +203,22 @@ const ProductCard = ({ product, updateProductQuantity, addToCart }) => {
 	);
   }
 
-const ProductList = () => {
+const Customer = () => {
 	const [productList, setProductList] = useState([]);
-
 	const [cartProducts, setCartProducts] = useState([]);
 	const [address, setAddress] = useState("");
 	const userId = sessionStorage.getItem("userId");
 
+
 	useEffect(() => {
-		axios
-			.get(`${getBaseURL()}api/products`)
-			.then((res) => {
-				setProductList(res.data);
-				res.data.forEach((product) => {
-					product.quantity = 0;
-				});
-				axios
-					.get(`${getBaseURL()}api/cart/${userId}`)
-					.then((responseCart) => {
-						let productsInCart = responseCart.data;
-						setCartProducts(productsInCart);
-					})
-					.catch((err) => console.log("Error occurred"));
-			})
-			.catch((err) => console.log("Error"));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
-	const fetchProducts = () => {
-		axios
-			.get(`${getBaseURL()}api/products`)
-			.then((res) => {
-				const data = res.data;
-				setProductList(data);
-			})
-			.catch((err) => console.log("Couldn't receive list"));
-	};
-
-	// ✅ Function to add products to cart
-	const addToCart = (product) => {
-		if (product.quantity > 0) {
-			let updatedCartList = [...cartProducts];
-			let existingProductIndex = updatedCartList.findIndex(
-				(p) => p.productId === product.productId
-			);
-
-			if (existingProductIndex !== -1) {
-				updatedCartList[existingProductIndex].quantity += product.quantity;
-			} else {
-				updatedCartList.push({ ...product });
-			}
-
-			axios
-				.post(`${getBaseURL()}api/cart/add`, {
-					userId,
-					productId: product.productId,
-					quantity: product.quantity,
-					isPresent: existingProductIndex !== -1,
-				})
-				.then(() => {
-					setCartProducts(updatedCartList);
-					const updatedProductList = productList.map((p) => ({
-						...p,
-						quantity: 0,
-					}));
-					setProductList(updatedProductList);
-				})
-				.catch((error) => console.log("Error adding to cart:", error));
-		}
-	};
-
-	// ✅ Function to remove products from cart
-	const removeProduct = (productId) => {
-		axios
-			.delete(`${getBaseURL()}api/cart/remove/${productId}/${userId}`)
-			.then(() => {
-				console.log("Deleted successfully");
-				setCartProducts(
-					cartProducts.filter((product) => product.productId !== productId)
-				);
-			})
-			.catch(() => console.log("Error occurred while removing product"));
-	};
-
-	// ✅ Function to update product quantity
-	const updateProductQuantity = (e, productId) => {
-		const updatedList = productList.map((product) => {
-			if (product.productId === productId) {
-				return { ...product, quantity: parseInt(e.target.value) || 0 };
-			}
-			return product;
-		});
-		setProductList(updatedList);
-	};
-
-	// ✅ Function to buy products
-	const buyProducts = () => {
-		const token = sessionStorage.getItem("jwt_token");
-
-		if (!token) {
-			alert("Authorization token is missing");
+		if (!userId){ 
+			 console.log("userId is null")
 			return;
 		}
 
-		if (address !== "") {
-			const customerPayload = { address };
-
-			axios
-				.post(`${getBaseURL()}api/cart/buy/${userId}`, customerPayload, {
-					headers: { Authorization: `Bearer ${token}` },
-				})
-				.then(() => {
-					setCartProducts([]);
-					setAddress("");
-					alert("Order placed successfully");
-				})
-				.catch((error) => {
-					if (error.response?.status === 401) {
-						alert("Authorization failed. Please log in again.");
-					} else {
-						console.error("Error:", error);
-					}
-				});
-		} else {
-			alert("Please enter your address");
-		}
-	};
-
-	return (
-		<div className="p-6">
-			<h1 className="text-2xl font-bold text-center mb-4">Products</h1>
-
-			{/* Product Cards Section */}
-			<div className="flex flex-wrap">
-				{productList.map((product) => (
-					<ProductCard
-						key={product.productId}
-						product={product}
-						updateProductQuantity={updateProductQuantity}
-						addToCart={addToCart}
-					/>
-				))}
-			</div>
-
-			{/* Shopping Cart Section */}
-			{/* <ShoppingCart
-		  cartProducts={cartProducts}
-		  removeProduct={removeProduct}
-		  buyProducts={buyProducts}
-		  address={address}
-		  updateAddress={setAddress}
-		/> */}
-		</div>
-	);
-};
-
-const Customer = () => {
-	const [productList, setProductList] = useState([]);
-
-	const [cartProducts, setCartProducts] = useState([]);
-	const [address, setAddress] = useState("");
-	const userId = sessionStorage.getItem("userId");
-
-	useEffect(() => {
+		console.log("type of userId == ", typeof userId)
+		console.log("user id in useEffect == ", userId);
 		axios
 			.get(`${getBaseURL()}api/products`)
 			.then((res) => {
@@ -401,6 +250,8 @@ const Customer = () => {
 
 	// ✅ Function to add products to cart
 	const addToCart = (product) => {
+
+
 		if (product.quantity > 0) {
 			let updatedCartList = [...cartProducts];
 			let existingProductIndex = updatedCartList.findIndex(
@@ -415,7 +266,7 @@ const Customer = () => {
 
 			axios
 				.post(`${getBaseURL()}api/cart/add`, {
-					userId,
+					userId: userId,
 					productId: product.productId,
 					quantity: product.quantity,
 					isPresent: existingProductIndex !== -1,
@@ -427,6 +278,8 @@ const Customer = () => {
 						quantity: 0,
 					}));
 					setProductList(updatedProductList);
+
+					fetchProducts();
 				})
 				.catch((error) => console.log("Error adding to cart:", error));
 		}

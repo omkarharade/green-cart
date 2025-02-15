@@ -5,7 +5,7 @@ const pool = require("../database/connection");
 exports.getShoppingCart = (userId) => {
     return new Promise((resolve, reject) => {
         pool.query(
-            "SELECT S.quantity, P.name, P.price, P.productId FROM shoppingCart S INNER JOIN product P ON S.productId = P.productId WHERE S.userId = ?",
+            "SELECT S.quantity, P.name, P.price, P.productId, P.imageURL FROM shoppingCart S INNER JOIN product P ON S.productId = P.productId WHERE S.userId = ?",
             [userId],
             (err, result) => {
                 if (err) {

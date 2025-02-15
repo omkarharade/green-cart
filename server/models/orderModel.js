@@ -74,7 +74,7 @@ exports.updateOrder = (orderId, newData) => {
 
 exports.getPastOrdersByCustomerID = (orderId) => {
     const query =
-        "SELECT O.orderId, P.name, O.createdDate, PIN.quantity, PIN.totalPrice " +
+        "SELECT O.orderId, P.name, P.imageURL, O.createdDate, PIN.quantity, PIN.totalPrice " +
         "FROM orders O INNER JOIN productsInOrder PIN ON O.orderId = PIN.orderId  " +
         "INNER JOIN product P ON PIN.productId = P.productId " +
         "WHERE O.userId = ? " +
