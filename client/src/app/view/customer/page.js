@@ -232,13 +232,13 @@ const Customer = () => {
 				})
 				.then(() => {
 					setCartProducts(updatedCartList);
-					const updatedProductList = productList.map((p) => ({
-						...p,
-						quantity: 0,
-					}));
-					setProductList(updatedProductList);
+					// const updatedProductList = productList.map((p) => ({
+					// 	...p,
+					// 	quantity: 0,
+					// }));
+					// setProductList(updatedProductList);
 
-					fetchProducts();
+					// fetchProducts();
 				})
 				.catch((error) => console.log("Error adding to cart:", error));
 		}
