@@ -69,79 +69,97 @@ const Slider = () => {
 
 const ProductCard = ({ product, updateProductQuantity, addToCart }) => {
 	const [quantity, setQuantity] = useState(product.quantity || 0);
-
+	const [buttonText, setButtonText] = useState("Add to Cart"); // State for button text
+  
 	const handleIncrease = () => {
-		const newQuantity = quantity + 1;
+	  const newQuantity = quantity + 1;
+	  setQuantity(newQuantity);
+	  updateProductQuantity(
+		{ target: { value: newQuantity } },
+		product.productId
+	  );
+	};
+  
+	const handleDecrease = () => {
+	  if (quantity > 0) {
+		const newQuantity = quantity - 1;
 		setQuantity(newQuantity);
 		updateProductQuantity(
-			{ target: { value: newQuantity } },
-			product.productId
+		  { target: { value: newQuantity } },
+		  product.productId
 		);
+	  }
 	};
-
-	const handleDecrease = () => {
-		if (quantity > 0) {
-			const newQuantity = quantity - 1;
-			setQuantity(newQuantity);
-			updateProductQuantity(
-				{ target: { value: newQuantity } },
-				product.productId
-			);
-		}
+  
+	const handleAddToCart = () => {
+	  addToCart(product);
+	  setButtonText("Added"); // Change the button text to "Added"
+	
+	  setTimeout(() => {
+		setQuantity(0); // Reset the quantity to 0 after adding to cart
+		setButtonText("Add to Cart"); // Revert the button text after 2 seconds
+	  }, 2000);
 	};
-
+  
+	// Button disabled if quantity is 0
+	const isButtonDisabled = quantity === 0;
+  
 	return (
-		<div className="border rounded-lg shadow-lg p-4 bg-white flex flex-col items-center justify-between h-[420px] w-[270px] mx-5 my-5">
-			{/* Product Image */}
-			<img
-				src={product.imageURL}
-				alt={product.name}
-				className="w-full h-40 object-cover rounded-md"
-			/>
-
-			{/* Product Name */}
-			<h3 className="text-lg font-semibold mt-2">{product.name}</h3>
-
-			{/* Product Price */}
-			<p className="text-green-700 font-bold text-lg">₹{product.price}</p>
-
-			{/* Quantity Control */}
-			<div className="flex items-center space-x-3 mt-2">
-				{/* Decrease Button */}
-				<button
-					className="bg-red-500 text-white px-3 py-1 rounded-xl text-lg font-bold transition-all duration-200 hover:bg-red-600 shadow-md"
-					onClick={handleDecrease}
-				>
-					−
-				</button>
-
-				{/* Read-Only Quantity Input */}
-				<input
-					type="number"
-					value={quantity}
-					readOnly
-					className="w-14 text-center bg-gray-100 outline-none border border-gray-300 px-2 py-1 text-lg font-semibold rounded-md"
-				/>
-
-				{/* Increase Button */}
-				<button
-					className="bg-green-500 text-white px-3 py-1 rounded-xl text-lg font-bold transition-all duration-200 hover:bg-green-600 shadow-md"
-					onClick={handleIncrease}
-				>
-					+
-				</button>
-			</div>
-
-			{/* Add to Cart Button */}
-			<button
-				className="bg-blue-500 text-white px-4 py-2 mt-3 rounded-md w-full transition-all duration-200 hover:bg-blue-600 shadow-md"
-				onClick={() => addToCart(product)}
-			>
-				Add to Cart
-			</button>
+	  <div className="border rounded-lg shadow-lg p-4 bg-white flex flex-col items-center justify-between h-[420px] w-[270px] mx-5 my-5">
+		{/* Product Image */}
+		<img
+		  src={product.imageURL}
+		  alt={product.name}
+		  className="w-full h-40 object-cover rounded-md"
+		/>
+  
+		{/* Product Name */}
+		<h3 className="text-lg font-semibold mt-2">{product.name}</h3>
+  
+		{/* Product Price */}
+		<p className="text-green-700 font-bold text-lg">₹{product.price}</p>
+  
+		{/* Quantity Control */}
+		<div className="flex items-center space-x-3 mt-2">
+		  {/* Decrease Button */}
+		  <button
+			className="bg-red-500 text-white px-3 py-1 rounded-xl text-lg font-bold transition-all duration-200 hover:bg-red-600 shadow-md"
+			onClick={handleDecrease}
+		  >
+			−
+		  </button>
+  
+		  {/* Read-Only Quantity Input */}
+		  <input
+			type="number"
+			value={quantity}
+			readOnly
+			className="w-14 text-center bg-gray-100 outline-none border border-gray-300 px-2 py-1 text-lg font-semibold rounded-md"
+		  />
+  
+		  {/* Increase Button */}
+		  <button
+			className="bg-green-500 text-white px-3 py-1 rounded-xl text-lg font-bold transition-all duration-200 hover:bg-green-600 shadow-md"
+			onClick={handleIncrease}
+		  >
+			+
+		  </button>
 		</div>
+  
+		{/* Add to Cart Button */}
+		<button
+		  className={`${
+			isButtonDisabled ? "bg-blue-200 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+		  } text-white px-4 py-2 mt-3 rounded-md w-full transition-all duration-200 shadow-md`}
+		  onClick={handleAddToCart}
+		  disabled={isButtonDisabled} // Disable button if quantity is 0
+		>
+		  {buttonText}
+		</button>
+	  </div>
 	);
-};
+  };
+
 
 const Customer = () => {
 	const [productList, setProductList] = useState([]);

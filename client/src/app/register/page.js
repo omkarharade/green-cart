@@ -117,8 +117,9 @@ function Register(props) {
 						placeholder="Password"
 					></input>
 				</div>
-				{error && <div className="error-message">{error}</div>}
-
+				{error && (
+					<div className="bg-red-600 text-white p-2 mb-4 rounded">{error}</div>
+				)}
 
 				<div className="flex flex-row my-4 justify-evenly w-full">
 					<div className="flex flex-row">
