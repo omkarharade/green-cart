@@ -5,70 +5,6 @@ import axios from "axios";
 import { getBaseURL } from "../../../../apiConfig";
 import formatDateIST from "../../../../utils/formatDateIST";
 
-const Navbar = () => {
-	const [isOpen, setIsOpen] = useState(false);
-
-	const navLinks = [
-		{ name: "products", route: "/view/customer" },
-		{ name: "cart", route: "/view/customer/cart" },
-		{ name: "past orders", route: "/view/customer/orders" },
-	];
-
-	return (
-		<nav className="bg-green-700 p-4 text-white">
-			<div className="flex justify-between items-center">
-				{/* Logo */}
-				<div className="text-2xl font-bold">GreenLiving</div>
-
-				{/* Navigation Links - Hidden on Mobile */}
-				<div className="hidden md:flex space-x-4">
-					{navLinks.map((link, index) => (
-						<a key={index} href={link.route} className="hover:underline">
-							{link.name}
-						</a>
-					))}
-				</div>
-
-				<div className="flex flex-row">
-					{/* Search & Icons */}
-					<div className="flex space-x-4">
-						<input
-							type="text"
-							placeholder="Search..."
-							className="p-1 rounded text-black"
-						/>
-						<i className="fas fa-search cursor-pointer"></i>
-						<a href="login.html">
-							<i className="fas fa-user cursor-pointer"></i>
-						</a>
-						<a href="cart.html">
-							<i className="fas fa-shopping-cart cursor-pointer"></i>
-						</a>
-					</div>
-
-					{/* Hamburger Icon for Mobile */}
-					<button
-						className="md:hidden text-white text-2xl"
-						onClick={() => setIsOpen(!isOpen)}
-					>
-						☰
-					</button>
-				</div>
-			</div>
-
-			{/* Mobile Menu (Shown when isOpen is true) */}
-			{isOpen && (
-				<div className="md:hidden flex flex-col space-y-2 mt-4 bg-green-800 p-4 rounded">
-					{navLinks.map((link, index) => (
-						<a key={index} href="#" className="block hover:underline">
-							{link}
-						</a>
-					))}
-				</div>
-			)}
-		</nav>
-	);
-};
 
 const CustomerOrders = () => {
 	const [orders, setOrders] = useState([]);
@@ -99,8 +35,6 @@ const CustomerOrders = () => {
 
 	return (
 		<div>
-			{/* Navbar */}
-			<Navbar />
 
 			<div className="max-w-5xl mx-auto p-6">
 				<h1 className="text-3xl font-bold mb-6 text-center text-gray-800">

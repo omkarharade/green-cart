@@ -1,24 +1,21 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useRouter } from "next/navigation";
-import { useAuth } from '../../context/AuthContext';
-import Admin from './admin/page';
-import Customer from './customer/page';
-
 
 function View() {
-	const { userContext, tokenContext, refreshTokenContext } = useAuth();
-    const router = useRouter();
+
+    const [isAdmin, setIsAdmin] = useState(false);
+    const router = useRouter(); 
 
     useEffect(() => {
 
         const userId = sessionStorage.getItem("userId")
-        const isAdmin = JSON.parse(sessionStorage.getItem("isAdmin"));
+        const storedAdmin =  sessionStorage.getItem("isAdmin");
+        setIsAdmin(storedAdmin ? JSON.parse(storedAdmin) : false);
+    },[])
 
-        console.log("isAdmin ==== ", isAdmin)
-
-        console.log("inside useEffect in view", " what is type of isAdmin", typeof isAdmin)
+    useEffect(() => {
 
         if(isAdmin){
             router.push("/view/admin")
@@ -26,7 +23,8 @@ function View() {
         else{
             router.push("/view/customer")
         }
-    },[])
+
+    }, [isAdmin])
 
 	return <div> you are being redirected . . . . .</div>;
 }

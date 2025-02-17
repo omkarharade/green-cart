@@ -4,7 +4,7 @@ const pool = require("../database/connection");
 exports.getAllOrders = () => {
     return new Promise((resolve, reject) => {
         pool.query(
-            "SELECT O.orderId, U.fname, U.lname, O.createdDate, O.totalPrice " +
+            "SELECT O.orderId,  U.fname, U.lname, O.createdDate, O.totalPrice " +
             "FROM orders O INNER JOIN users U ON O.userId = U.userId;",
             (err, result) => {
                 if (err) {
@@ -39,7 +39,7 @@ exports.getOrderById = (orderId) => {
 exports.getProductsByOrder = (orderId) => {
     return new Promise((resolve, reject) => {
         pool.query(
-            "SELECT P2.productId, P2.name, P.quantity, P.totalPrice " +
+            "SELECT P2.productId, P2.name, P2.imageURL, P.quantity, P.totalPrice " +
             "FROM orders O INNER JOIN productsInOrder P ON O.orderId = P.orderId " +
             "INNER JOIN product P2 ON P.productId = P2.productId " +
             "WHERE O.orderId = ?;",

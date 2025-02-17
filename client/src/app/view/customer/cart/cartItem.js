@@ -1,9 +1,12 @@
 "use client"
 import React from "react";
+import { Trash2 } from "lucide-react";
 
-const CartItem = ({ product, removeProduct }) => {
+const CartItem = ({ product, removeProduct}) => {
+
+
   return (
-    <div className="flex items-center bg-gray-100 p-4 rounded-lg shadow-md">
+    <div className="flex items-center bg-gray-100 p-4 rounded-lg shadow-md flex-col sm:flex-row">
       {/* Product Image */}
       <img
         src={product.imageURL}
@@ -15,7 +18,7 @@ const CartItem = ({ product, removeProduct }) => {
       <div className="flex-1 ml-4">
         <h3 className="text-lg font-semibold">{product.name}</h3>
         <p className="text-sm text-gray-600">Quantity: {product.quantity}</p>
-        <p className="text-sm font-medium text-gray-700">
+        <p className="text-sm font-mediumz text-gray-700">
           Total: ₹{product.price * product.quantity}
         </p>
       </div>
@@ -25,7 +28,7 @@ const CartItem = ({ product, removeProduct }) => {
         className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
         onClick={() => removeProduct(product.productId)}
       >
-        Remove
+        <Trash2 size={20} />
       </button>
     </div>
   );

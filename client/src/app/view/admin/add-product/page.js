@@ -5,72 +5,6 @@ import axios from "axios";
 import { getBaseURL } from "../../../../apiConfig";
 import { useRouter } from "next/navigation";
 
-const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const navLinks = [
-        {name: "products", route: "/view/admin"},
-        {name:"add product", route: "/view/admin/add-product"},
-    {name: "check orders", route: "/view/admin"}
-    ];
-
-    return (
-        <nav className="bg-green-700 p-4 text-white">
-            <div className="flex justify-between items-center">
-                {/* Logo */}
-                <div className="text-2xl font-bold">GreenLiving</div>
-
-                {/* Navigation Links - Hidden on Mobile */}
-                <div className="hidden md:flex space-x-4">
-                    {navLinks.map((link, index) => (
-                        <a key={index} href={link.route} className="hover:underline">
-                            {link.name}
-                        </a>
-                    ))}
-                </div>
-
-                <div className="flex flex-row">
-                    {/* Search & Icons */}
-                    <div className="flex space-x-4">
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            className="p-1 rounded text-black"
-                        />
-                        <i className="fas fa-search cursor-pointer"></i>
-                        <a href="login.html">
-                            <i className="fas fa-user cursor-pointer"></i>
-                        </a>
-                        <a href="cart.html">
-                            <i className="fas fa-shopping-cart cursor-pointer"></i>
-                        </a>
-                    </div>
-
-                    {/* Hamburger Icon for Mobile */}
-                    <button
-                        className="md:hidden text-white text-2xl"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        ☰
-                    </button>
-                </div>
-            </div>
-
-            {/* Mobile Menu (Shown when isOpen is true) */}
-            {isOpen && (
-                <div className="md:hidden flex flex-col space-y-2 mt-4 bg-green-800 p-4 rounded">
-                    {navLinks.map((link, index) => (
-                        <a key={index} href="#" className="block hover:underline">
-                            {link}
-                        </a>
-                    ))}
-                </div>
-            )}
-        </nav>
-    );
-};
-
-
 const AddProductForm = () => {
 	const [productName, setProductName] = useState("");
 	const [productPrice, setProductPrice] = useState("");
@@ -125,9 +59,6 @@ const AddProductForm = () => {
 
 	return (
 		<div>
-			{/* navbar */}
-			<Navbar />
-
 			{/* add product  */}
 			<div className="h-screen flex justify-center items-center bg-gray-100">
 				<div className="max-w-lg w-full bg-white shadow-lg rounded-lg p-6">

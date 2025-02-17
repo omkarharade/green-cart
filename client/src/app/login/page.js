@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getBaseURL } from "../../apiConfig";
 import TokenRefresher from "../../utils/token"; 
@@ -11,6 +11,17 @@ function Login(props) {
   let [password, setPass] = useState("");
   let [error, setError] = useState("");
   const router = useRouter();
+
+
+  useEffect(() => {
+
+        const isAuthentic = JSON.parse(sessionStorage.getItem("isUserAuthenticated"));
+  
+          if(isAuthentic){
+              router.push("/view/")
+          }
+      },[])
+
 
   // Adding click handler
   function handleClick() {
