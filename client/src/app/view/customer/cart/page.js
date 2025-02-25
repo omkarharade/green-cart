@@ -2,7 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { getBaseURL } from "../../../../apiConfig";
+import {
+	NEXT_PUBLIC_APP_API_URL,
+	NEXT_PUBLIC_RAZORPAY_KEY_ID,
+} from "../../../../apiConfig";
 import CartItem from "./cartItem";
 import { useRouter } from "next/navigation";
 
@@ -17,88 +20,158 @@ const ShoppingCart = (props) => {
 		fetchCartItems();
 	}, []);
 
-  useEffect(() => {
-    const total = cartProducts.reduce((acc, product) => {
-      const price = Number(product.price);
-      // If product.quantity doesn't exist, assume 1
-      const quantity = product.quantity ? Number(product.quantity) : 1;
-      return acc + price * quantity;
-    }, 0);
-    setTotalCost(total);
-  }, [cartProducts]);
+	useEffect(() => {
+		const total = cartProducts.reduce((acc, product) => {
+			const price = Number(product.price);
+			// If product.quantity doesn't exist, assume 1
+			const quantity = product.quantity ? Number(product.quantity) : 1;
+			return acc + price * quantity;
+		}, 0);
+		setTotalCost(total);
+	}, [cartProducts]);
 
 	const updateAddress = (updatedAddress) => {
 		setAddress(updatedAddress);
 	};
 
-  const updateTotalCost = () => {
-
-    const total = cartProducts.reduce(
-      (acc, product) => acc + (Number(product.price) * Number(product.quantity)),
-      0
-    );
-    setTotalCost(total);
-
-  }
+	const updateTotalCost = () => {
+		const total = cartProducts.reduce(
+			(acc, product) => acc + Number(product.price) * Number(product.quantity),
+			0
+		);
+		setTotalCost(total);
+	};
 
 	const fetchCartItems = async () => {
 		await axios
-			.get(`${getBaseURL()}api/cart/${userId}`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/cart/${userId}`)
 			.then((res) => {
 				setCartProducts(res.data);
 			})
 			.catch((err) => console.log("Error occurred"));
 	};
 
-	const buyProducts = () => {
-		// Retrieve JWT token from session storage
+	const buyProducts = async () => {
 		const token = sessionStorage.getItem("jwt_token");
 
 		if (!token) {
-			// Handle case where token is not available
 			alert("Authorization token is missing");
 			return;
 		}
 
-		if (address !== "") {
-			let customerPayload = { address };
+		if (address === "") {
+			alert("Please enter your address");
+			return;
+		}
 
-			// Include JWT token in the headers
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
+		try {
+			// ✅ Step 1: Load Razorpay Script Dynamically
+			const loadRazorpay = new Promise((resolve) => {
+				const script = document.createElement("script");
+				script.src = "https://checkout.razorpay.com/v1/checkout.js";
+				script.async = true;
+				script.onload = () => resolve(true);
+				script.onerror = () => resolve(false);
+				document.body.appendChild(script);
+			});
+
+			const isLoaded = await loadRazorpay;
+			if (!isLoaded) {
+				alert("Failed to load Razorpay SDK");
+				return;
+			}
+
+			// ✅ Step 1: Generate Razorpay Order ID
+			const response = await fetch(`${NEXT_PUBLIC_APP_API_URL}create-order`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					amount: totalCost,
+					receipt: `receipt_${new Date().getTime()}`,
+				}),
+			});
+
+			const order = await response.json();
+
+			// ✅ Step 2: Open Razorpay Checkout
+			const options = {
+				key: NEXT_PUBLIC_RAZORPAY_KEY_ID,
+				amount: order.amount,
+				currency: order.currency,
+				name: "GreenLiving Store",
+				description: "Purchase from GreenLiving",
+				order_id: order.id,
+				prefill: {
+					name: "GreenLiving",
+					amount: order.amount,
+					address: address,
 				},
+
+				handler: async function (response) {
+					// ✅ Step 3: Verify Payment
+
+					const verifyResponse = await fetch(
+						`${NEXT_PUBLIC_APP_API_URL}verify-Payment`,
+						{
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify(response),
+						}
+					);
+
+					const verifyResult = await verifyResponse.json();
+
+					console.log("verify result output === ", verifyResult);
+					if (verifyResult.error) {
+						alert("Payment verification failed!");
+					} else {
+						// ✅ Step 4: Place Order after Payment Verification
+						let customerPayload = { address };
+						const config = {
+							headers: { Authorization: `Bearer ${token}` },
+						};
+
+						axios
+							.post(
+								`${NEXT_PUBLIC_APP_API_URL}api/cart/buy/${userId}`,
+								{ ...customerPayload },
+								config
+							)
+							.then((res) => {
+								setCartProducts([]);
+								setAddress("");
+								alert("Order placed successfully!");
+							})
+							.catch((error) => {
+								if (error.response && error.response.status === 401) {
+									alert("Authorization failed. Please log in again.");
+								} else {
+									console.error("Error:", error);
+								}
+							});
+					}
+				},
+				prefill: {
+					name: "Test User",
+					email: "test@example.com",
+					contact: "9999999999",
+				},
+				theme: { color: "#3399cc" },
 			};
 
-			axios
-				.post(
-					`${getBaseURL()}api/cart/buy/${userId}`,
-					{ ...customerPayload },
-					config
-				)
-				.then((res) => {
-					setCartProducts([]);
-					setAddress("");
-					alert("Order placed successfully");
-				})
-				.catch((error) => {
-					if (error.response && error.response.status === 401) {
-						// Unauthorized - token might be expired or invalid
-						alert("Authorization failed. Please log in again.");
-						// Handle logout or redirect to login page
-					} else {
-						// Other error handling
-						console.error("Error:", error);
-					}
-				});
-		} else {
-			alert("Please enter your address");
+			const rzp = new window.Razorpay(options);
+			rzp.open();
+		} catch (error) {
+			console.error("Error:", error);
+			alert("Payment failed! Please try again.");
 		}
 	};
 
 	const removeProduct = (productId) => {
 		axios
-			.delete(`${getBaseURL()}api/cart/remove/${productId}/${userId}`)
+			.delete(
+				`${NEXT_PUBLIC_APP_API_URL}api/cart/remove/${productId}/${userId}`
+			)
 			.then((res) => {
 				console.log("Deleted successfully");
 				let updatedCartList = cartProducts.filter((product) => {
@@ -117,7 +190,6 @@ const ShoppingCart = (props) => {
 
 	return (
 		<div>
-
 			<div className="p-6">
 				<h1 className="text-2xl font-bold text-center mb-4">Shopping Cart</h1>
 

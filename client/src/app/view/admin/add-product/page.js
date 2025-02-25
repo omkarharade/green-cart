@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
-import { getBaseURL } from "../../../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL } from "../../../../apiConfig";
 import { useRouter } from "next/navigation";
 
 const AddProductForm = () => {
@@ -27,7 +27,7 @@ const AddProductForm = () => {
 			console.log("imageURL == ", imageURL);
 
 			axios
-				.post(`${getBaseURL()}api/products/create`, {
+				.post(`${NEXT_PUBLIC_APP_API_URL}api/products/create`, {
 					name,
 					price,
 					description,

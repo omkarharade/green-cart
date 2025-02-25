@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { getBaseURL } from "../../../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL} from "../../../../apiConfig";
 import formatDateIST from "../../../../utils/formatDateIST";
 
 const CustomerOrders = () => {
@@ -13,7 +13,7 @@ const CustomerOrders = () => {
 	useEffect(() => {
 		if (!userId) return;
 		axios
-			.get(`${getBaseURL()}api/orders/myPastOrders/${userId}`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/orders/myPastOrders/${userId}`)
 			.then((res) => {
 				setOrders(res.data);
 			})

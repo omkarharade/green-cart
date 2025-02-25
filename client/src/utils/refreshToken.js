@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { getBaseURL } from "../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL } from "../apiConfig";
 
 const refreshToken = async (token) => {
     try {
-        let url = `${getBaseURL()}api/token/refreshToken`;
+        let url = `${NEXT_PUBLIC_APP_API_URL}api/token/refreshToken`;
         const response = await axios.post(url, { refreshToken: token });
         const newToken = response.data.token; // Assuming your backend returns the new token
         // Update session storage or state with the new access token

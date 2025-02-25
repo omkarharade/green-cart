@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { getBaseURL } from "../../../../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL } from "../../../../../apiConfig";
 import formatDateIST from "../../../../../utils/formatDateIST";
 import { useParams, useRouter } from "next/navigation";
 
@@ -15,12 +15,12 @@ const OrderDetails = () => {
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		axios
-			.get(`${getBaseURL()}api/orders/${orderId}`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/orders/${orderId}`)
 			.then((res) => setOrder(res.data[0]))
 			.catch((err) => console.log("Error fetching order details"));
 
 		axios
-			.get(`${getBaseURL()}api/orders/getProductsByOrder/${orderId}`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/orders/getProductsByOrder/${orderId}`)
 			.then((res) => {
 				setProductsInOrder(res.data);
 				console.log("products res.data === ", res.data);

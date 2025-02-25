@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import { getBaseURL } from "../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL } from "../../apiConfig";
 import { redirect } from "next/navigation"
 
 function Register(props) {
@@ -26,7 +26,7 @@ function Register(props) {
 
 			console.log("new user = ", newUser);
 
-			let url = `${getBaseURL()}api/users/register`;
+			let url = `${NEXT_PUBLIC_APP_API_URL}api/users/register`;
 			axios
 				.post(url, { ...newUser })
 				.then((res) => {

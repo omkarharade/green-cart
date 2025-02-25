@@ -3,7 +3,7 @@
 import { React, useState, useEffect } from "react";
 import { Trash2 } from "lucide-react";
 import axios from "axios";
-import { getBaseURL } from "../../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL } from "../../../apiConfig";
 import { useRouter, redirect } from "next/navigation";
 import Loader from "../../../components/Loader";
 
@@ -78,7 +78,7 @@ function Admin() {
 	const deleteProduct = (productId) => {
 		console.log("delete function called")
 		axios
-			.delete(`${getBaseURL()}api/products/delete/${productId}`)
+			.delete(`${NEXT_PUBLIC_APP_API_URL}api/products/delete/${productId}`)
 			.then((res) => {
 				console.log("Deletion successful");
 				fetchProducts();
@@ -89,7 +89,7 @@ function Admin() {
 	const fetchProducts = () => {
 		setLoading(true);
 		axios
-			.get(`${getBaseURL()}api/products`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/products`)
 			.then((res) => {
 				const data = res.data;
 				setProducts(data);

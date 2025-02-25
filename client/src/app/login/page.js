@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getBaseURL } from "../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL} from "../../apiConfig";
 import TokenRefresher from "../../utils/token"; 
 import { useRouter } from 'next/navigation';
 
@@ -22,7 +22,7 @@ function Login() {
   function handleClick() {
     if (validateInputs()) {
       const user = { email: uname, password: password };
-      let url = `${getBaseURL()}api/users/login`;
+      let url = `${NEXT_PUBLIC_APP_API_URL}api/users/login`;
 
       axios
         .post(url, { ...user })

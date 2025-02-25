@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { getBaseURL } from "../../../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL } from "../../../../apiConfig";
 import formatDateIST from "../../../../utils/formatDateIST";
 import Loader from "../../../../components/Loader";
 
@@ -14,7 +14,7 @@ const AdminOrderList = () => {
 	// Fetch orders when component mounts
 	useEffect(() => {
 		axios
-			.get(`${getBaseURL()}api/orders`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/orders`)
 			.then((res) => setOrders(res.data))
 			.catch((err) => console.error("Couldn't receive order list", err))
 			.finally(setLoading(false));

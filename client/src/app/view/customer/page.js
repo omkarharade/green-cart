@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { getBaseURL } from "../../../apiConfig";
+import { NEXT_PUBLIC_APP_API_URL } from "../../../apiConfig";
 
 const Slider = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -182,14 +182,14 @@ const Customer = () => {
 		}
 
 		axios
-			.get(`${getBaseURL()}api/products`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/products`)
 			.then((res) => {
 				setProductList(res.data);
 				res.data.forEach((product) => {
 					product.quantity = 0;
 				});
 				axios
-					.get(`${getBaseURL()}api/cart/${userId}`)
+					.get(`${NEXT_PUBLIC_APP_API_URL}api/cart/${userId}`)
 					.then((responseCart) => {
 						let productsInCart = responseCart.data;
 						setCartProducts(productsInCart);
@@ -201,7 +201,7 @@ const Customer = () => {
 
 	const fetchProducts = () => {
 		axios
-			.get(`${getBaseURL()}api/products`)
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/products`)
 			.then((res) => {
 				const data = res.data;
 				setProductList(data);
@@ -224,7 +224,7 @@ const Customer = () => {
 			}
 
 			axios
-				.post(`${getBaseURL()}api/cart/add`, {
+				.post(`${NEXT_PUBLIC_APP_API_URL}api/cart/add`, {
 					userId: userId,
 					productId: product.productId,
 					quantity: product.quantity,
@@ -242,19 +242,6 @@ const Customer = () => {
 				})
 				.catch((error) => console.log("Error adding to cart:", error));
 		}
-	};
-
-	// Function to remove products from cart
-	const removeProduct = (productId) => {
-		axios
-			.delete(`${getBaseURL()}api/cart/remove/${productId}/${userId}`)
-			.then(() => {
-				console.log("Deleted successfully");
-				setCartProducts(
-					cartProducts.filter((product) => product.productId !== productId)
-				);
-			})
-			.catch(() => console.log("Error occurred while removing product"));
 	};
 
 	// Function to update product quantity
