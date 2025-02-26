@@ -10,13 +10,15 @@ CREATE TABLE users (
 
 CREATE TABLE product (
 	productId INT(5) AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
+    `name` VARCHAR(30) NOT NULL,
     description TINYTEXT,
     price DECIMAL(10,2),
+    imageURL VARCHAR(255),
+    category VARCHAR(100) NOT NULL,
     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE shopingCart (
+CREATE TABLE shoppingCart (
 	userId INT(5),
     productId INT(5),
     quantity INT,
@@ -35,12 +37,12 @@ CREATE TABLE productsInOrder (
 	orderId INT(5),
     productId INT(5),
     quantity INT,
-    totalPrice DECIMAL(10,2),
+    totalPrice DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     PRIMARY KEY (orderId, productId) 
 );
 
 
-ALTER TABLE shopingCart
+ALTER TABLE shoppingCart
 ADD FOREIGN KEY (userId) REFERENCES users (userId),
 ADD FOREIGN KEY (productId) REFERENCES product (productId);
 

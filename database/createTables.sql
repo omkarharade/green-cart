@@ -14,6 +14,7 @@ CREATE TABLE product (
     description TINYTEXT,
     price DECIMAL(10,2),
     imageURL VARCHAR(255),
+    category VARCHAR(100) NOT NULL
     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

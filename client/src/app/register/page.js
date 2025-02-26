@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import axios from "axios";
 import { NEXT_PUBLIC_APP_API_URL } from "../../apiConfig";
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 function Register(props) {
 	let [email, setEmail] = useState("");
@@ -12,6 +12,7 @@ function Register(props) {
 	let [pass, setPass] = useState("");
 	const [isAdmin, setAdmin] = useState("0");
 	const [error, setError] = useState("");
+	const router = useRouter();
 
 
 	const handleUserRegistration = () => {
@@ -35,7 +36,7 @@ function Register(props) {
 					if (res.data != null) {
 						console.log("User registered successfully");
 						// props.navigateToLoginPage()
-						redirect("/login");
+						router.push("/login");
 					}
 				})
 				.catch((err) => console.log("Sorry unable to add new user"));

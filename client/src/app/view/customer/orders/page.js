@@ -63,12 +63,12 @@ const CustomerOrders = () => {
 										<div
 											key={order.name}
 											className="border rounded-lg p-4 shadow-md bg-gray-50 hover:shadow-lg transition-all"
-											style={{ width: "250px", height: "300px" }} // Fixed Width & Height
+											style={{ width: "250px"}} // Fixed Width & Height
 										>
 											<img
 												src={order.imageURL}
 												alt={order.name}
-												className="w-full h-40 object-cover rounded-md mb-3"
+												className="w-[230px] h-[230px] object-cover rounded-md mb-3"
 											/>
 											<h3 className="text-lg font-semibold text-gray-800">
 												{order.name}

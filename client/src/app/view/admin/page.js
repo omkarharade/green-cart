@@ -18,7 +18,7 @@ const ProductCard = ({
 	const [showDescription, setShowDescription] = useState(false);
 
 	return (
-		<div className="border rounded-lg shadow-lg p-4 bg-white flex flex-col items-center justify-between h-[400px] w-[250px] mx-5 my-5">
+		<div className="border rounded-lg shadow-lg p-4 bg-white flex flex-col items-center justify-between w-[250px] mx-5 my-5">
 			{showDescription ? (
 				// Description View
 				<>
@@ -40,7 +40,7 @@ const ProductCard = ({
 					<img
 						src={imageURL}
 						alt={name}
-						className="w-full h-40 object-cover rounded-md"
+						className="w-[230px] h-[230px] object-cover rounded-md"
 					/>
 					<h3 className="text-lg font-semibold mt-2">{name}</h3>
 					<p className="text-green-700 font-bold">₹{price}</p>

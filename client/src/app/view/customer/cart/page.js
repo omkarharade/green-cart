@@ -65,7 +65,7 @@ const ShoppingCart = (props) => {
 		}
 
 		try {
-			// ✅ Step 1: Load Razorpay Script Dynamically
+			// Load Razorpay Script Dynamically
 			const loadRazorpay = new Promise((resolve) => {
 				const script = document.createElement("script");
 				script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -81,7 +81,7 @@ const ShoppingCart = (props) => {
 				return;
 			}
 
-			// ✅ Step 1: Generate Razorpay Order ID
+			// Generate Razorpay Order ID
 			const response = await fetch(`${NEXT_PUBLIC_APP_API_URL}create-order`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -93,7 +93,8 @@ const ShoppingCart = (props) => {
 
 			const order = await response.json();
 
-			// ✅ Step 2: Open Razorpay Checkout
+
+			// Open Razorpay Checkout
 			const options = {
 				key: NEXT_PUBLIC_RAZORPAY_KEY_ID,
 				amount: order.amount,
@@ -108,8 +109,8 @@ const ShoppingCart = (props) => {
 				},
 
 				handler: async function (response) {
-					// ✅ Step 3: Verify Payment
 
+					// Verify Payment
 					const verifyResponse = await fetch(
 						`${NEXT_PUBLIC_APP_API_URL}verify-Payment`,
 						{
@@ -125,7 +126,9 @@ const ShoppingCart = (props) => {
 					if (verifyResult.error) {
 						alert("Payment verification failed!");
 					} else {
-						// ✅ Step 4: Place Order after Payment Verification
+
+
+						// Place Order after Payment Verification
 						let customerPayload = { address };
 						const config = {
 							headers: { Authorization: `Bearer ${token}` },

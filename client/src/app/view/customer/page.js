@@ -105,12 +105,12 @@ const ProductCard = ({ product, updateProductQuantity, addToCart }) => {
 	const isButtonDisabled = quantity === 0;
   
 	return (
-	  <div className="border rounded-lg shadow-lg p-4 bg-white flex flex-col items-center justify-between h-[420px] w-[270px] mx-5 my-5">
+	  <div className="border rounded-lg shadow-lg p-4 bg-white flex flex-col items-center justify-between w-[270px] mx-5 my-5">
 		{/* Product Image */}
 		<img
 		  src={product.imageURL}
 		  alt={product.name}
-		  className="w-full h-40 object-cover rounded-md"
+		  className="w-[250px] h-[250px] object-cover rounded-md"
 		/>
   
 		{/* Product Name */}

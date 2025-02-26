@@ -49,11 +49,11 @@ exports.allOrderByProductId = (productId) => {
 };
 
 
-exports.createProduct = (name, price, description, imageURL) => {
+exports.createProduct = (name, price, description, imageURL, category) => {
     return new Promise((resolve, reject) => {
         pool.query(
-            "INSERT INTO product (name, price, description, imageURL) VALUES (?,?,?,?);",
-            [name, price, description, imageURL],
+            "INSERT INTO product (name, price, description, imageURL, category) VALUES (?,?,?,?,?);",
+            [name, price, description, imageURL, category],
             (err, result) => {
                 if (err) {
                     reject(err);

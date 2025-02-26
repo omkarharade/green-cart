@@ -39,14 +39,14 @@ exports.allOrderByProductId = (req, res) => {
 };
 
 exports.createProduct = (req, res) => {
-    const { name, price, description, imageURL } = req.body;
-    productModel.createProduct(name, price, description, imageURL)
+    const { name, price, description, imageURL, category } = req.body;
+    productModel.createProduct(name, price, description, imageURL, category)
         .then(result => {
             res.send(result);
         })
         .catch(err => {
             console.error(err.message);
-            res.status(500).send("Error creating product.");
+            res.status(500).send(err.message);
         });
 };
 
