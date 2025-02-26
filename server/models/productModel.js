@@ -14,6 +14,20 @@ exports.getAllProducts = () => {
     });
 };
 
+exports.getProductsByCategory = (category) => {
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM product WHERE category = ?", [category], (err, result) => {
+
+            if(err) {
+                reject(err);
+            }
+            else{
+                resolve(result);
+            }
+        });
+    });
+};
+
 
 exports.getProductDetailsById = (productId) => {
     return new Promise((resolve, reject) => {

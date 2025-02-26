@@ -13,6 +13,19 @@ exports.getAllProducts = (req, res) => {
         });
 };
 
+exports.getProductsByCategory = (req, res) => {
+    const category = req.params.category;
+
+    productModel.getProductsByCategory(category)
+        .then(products => {
+            res.json(products);
+        })
+        .catch(error => {
+            console.error("Error fetching products:", error);
+            res.status(500).json({ error: "Error getting products by category" });
+        })
+}
+
 
 exports.getProductDetailsById = (req, res) => {
     const productId = req.params.id;

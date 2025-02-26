@@ -7,6 +7,9 @@ const productController = require("../controllers/productController");
 // Route to get all products
 router.get("/", productController.getAllProducts);
 
+// Route to get products by category 
+router.get("/:category", productController.getProductsByCategory);
+
 // Route to get product details by ID
 router.get("/:id", productController.getProductDetailsById);
 
@@ -21,5 +24,7 @@ router.post("/update", productController.updateProduct);
 
 // Route to delete a product by ID
 router.delete("/delete/:id", productController.deleteProduct);
+
+
 
 module.exports = router;
