@@ -7,8 +7,13 @@ const productController = require("../controllers/productController");
 // Route to get all products
 router.get("/", productController.getAllProducts);
 
+// Route to get top picks from each category 
+router.get("/get-top-picks", productController.getTopPicks);
+
 // Route to get products by category 
 router.get("/:category", productController.getProductsByCategory);
+
+
 
 // Route to get product details by ID
 router.get("/:id", productController.getProductDetailsById);

@@ -27,6 +27,18 @@ exports.getProductsByCategory = (req, res) => {
 }
 
 
+exports.getTopPicks = (req, res) => {
+    productModel.getTopPicks()
+        .then(topPicks => {
+            res.json(topPicks);
+        })
+        .catch(error => {
+            console.error("Error fetching top picks:", error);
+            res.status(500).json({ error: "Error fetching top picks" });
+        });
+};
+
+
 exports.getProductDetailsById = (req, res) => {
     const productId = req.params.id;
     productModel.getProductDetailsById(productId)

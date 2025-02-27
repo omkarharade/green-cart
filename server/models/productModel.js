@@ -28,6 +28,28 @@ exports.getProductsByCategory = (category) => {
     });
 };
 
+exports.getTopPicks = () => {
+    return new Promise((resolve, reject) => {
+
+        const query = `
+            SELECT * FROM (
+                SELECT *, 
+                    ROW_NUMBER() OVER (PARTITION BY category ORDER BY price DESC) AS row_num
+                FROM product
+            ) AS ranked
+            WHERE row_num <= 4;
+        `;
+
+        pool.query(query, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
 
 exports.getProductDetailsById = (productId) => {
     return new Promise((resolve, reject) => {
