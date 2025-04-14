@@ -38,7 +38,7 @@ exports.createSubscription = async (req, res) => {
 		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
 	} else if (planName === "Basic Box") {
 		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Even for Basic Box, set it to 2 minutes for testing
+		nextOrderDate = null // Even for Basic Box, set it to 2 minutes for testing
 	}
 
 	// Calculate discount based on planName
@@ -88,7 +88,7 @@ exports.createSubscription = async (req, res) => {
 					{ persistent: true, headers: { "x-delay": delay } }
 				);
 			} else {
-				res.status(201).json({ message: "Basic Box subscribed successfully!" });
+				
 				return channel.sendToQueue(
 					QUEUE_NAME,
 					Buffer.from(
@@ -151,7 +151,7 @@ exports.processSubscription = async (subscription, channel, config) => {
 			}
 		} else {
 			// Basic Box - Implement your logic to add regular products to the cart here.
-			const productResult = await pool.query("SELECT * FROM product LIMIT 5"); // Fetch up to 5 regular products (replace with your logic)
+			const productResult = await getPremiumProductsByType("Basic Box"); // Fetch up to 5 regular products 
 			if (productResult) {
 				productResult.forEach((product) => {
 					totalPrice += parseFloat(product.price);
