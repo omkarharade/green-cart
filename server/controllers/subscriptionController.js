@@ -100,59 +100,51 @@ exports.processSubscription = async (subscription, channel, config) => {
           try {
               // 1. Add products to cart based on subscription.plan_name
               let cartItems = [];
+              let totalPrice = 0.00;
               if (subscription.plan_name === "Deluxe Box") {
                   const premiumProductResult = await getPremiumProductsByType("Deluxe Box");
 
                   console.log("premiumproductsResult === ", premiumProductResult);
-                  if (premiumProductResult.rows) {
-                      premiumProductResult.rows.forEach(product => {
+                  if (premiumProductResult) {
+                      premiumProductResult.forEach(product => {
 
-                        // userId, productId, quantity, isPresent
-                          cartItems.push({
-                              productId: product.productId,
-                              quantity: 1, // Adjust quantity as needed
-                          });
+                        console.log("inside the loop price == ", product.price)
+                        totalPrice += parseFloat(product.price);
+
+                        console.log("inside the loop totalPrice == ", totalPrice);
+
                       });
                   }
 
               } else if (subscription.plan_name === 'Family Box') {
                   const premiumProductResult = await getPremiumProductsByType("Family Box");
-                  if (premiumProductResult.rows) {
-                      premiumProductResult.rows.forEach(product => {
-                          cartItems.push({
-                              productId: product.productId,
-                              quantity: product.quantity, // Or appropriate higher quantity for family box
-                          });
+                  if (premiumProductResult) {
+                      premiumProductResult.forEach(product => {
+
+                        totalPrice += parseFloat(product.price);
                       });
                   }
 
               } else {
                   // Basic Box - Implement your logic to add regular products to the cart here.
                    const productResult = await pool.query('SELECT * FROM product LIMIT 5'); // Fetch up to 5 regular products (replace with your logic)
-                   if (productResult.rows) {
-                     productResult.rows.forEach(product => {
-                         cartItems.push({
-                             productId: product.productId,
-                             quantity: 1
-                         });
+                   if (productResult) {
+                     productResult.forEach(product => {
+                         
+                        totalPrice += parseFloat(product.price);
                      });
                  }
               }
 
+              totalPrice = parseFloat(totalPrice.toFixed(2));
+              console.log("total Price == ", totalPrice);
 
-              // Add items to cart using the /api/cart/add route.
-
-              console.log("cart items == ", cartItems);
-              for (const item of cartItems) {
-
-                  await axios.post(`${BACKEND_API_URL}api/cart/add`, { userId: subscription.user_id, productId: item.productId, quantity: item.quantity, isPresent:false}, config);
-              }
 
               // 2. Place the order
               const address = subscription.delivery_address;
-              const orderResponse = await axios.post(`${BACKEND_API_URL}api/cart/buy/${subscription.user_id}`, { address: address }, config);
+              const orderResponse = await axios.post(`${BACKEND_API_URL}api/premium/orders/create`, { userId: subscription.user_id, address: address, price: totalPrice, subscriptionId: subscription.id }, config);
 
-              console.log("order response  == ", orderResponse);
+              console.log("order response  == ", orderResponse.data);
 
               // 3. Schedule next recurring order and update subscription status
               const now = new Date();

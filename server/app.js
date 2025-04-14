@@ -8,6 +8,7 @@ const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const subscriptionRoutes = require("./routes/subscriptionRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const premiumOrdersRoutes = require("./routes/premiumOrderRoutes")
 const userToken = require("./routes/userTokenRoute")
 const {PORT, RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, EXCHANGE_NAME, QUEUE_NAME, ROUTING_KEY} = require("./config/serverConfig")
 const subscriptionModel = require("./models/subscriptionModel");
@@ -35,6 +36,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/token", userToken);
+app.use("/api/premium/orders", premiumOrdersRoutes);
 
 const razorpay = new Razorpay({
     key_id: RAZORPAY_KEY_ID, // Replace with your actual Razorpay key

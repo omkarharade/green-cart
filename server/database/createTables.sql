@@ -1,97 +1,98 @@
-CREATE TABLE IF NOT EXISTS users (
-	userId INT(5) AUTO_INCREMENT PRIMARY KEY,
-    fname VARCHAR(30) NOT NULL,
-	lname VARCHAR(30) NOT NULL,
-	email VARCHAR(50),
-    password VARCHAR(200),
-    isAdmin BOOL,
-    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- CREATE TABLE IF NOT EXISTS users (
+-- 	userId INT(5) AUTO_INCREMENT PRIMARY KEY,
+--     fname VARCHAR(30) NOT NULL,
+-- 	lname VARCHAR(30) NOT NULL,
+-- 	email VARCHAR(50),
+--     password VARCHAR(200),
+--     isAdmin BOOL,
+--     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
-CREATE TABLE IF NOT EXISTS product (
-	productId INT(5) AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(30) NOT NULL,
-    description TINYTEXT,
-    price DECIMAL(10,2),
-    imageURL VARCHAR(255),
-    category VARCHAR(100) NOT NULL,
-    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- CREATE TABLE IF NOT EXISTS product (
+-- 	productId INT(5) AUTO_INCREMENT PRIMARY KEY,
+--     `name` VARCHAR(30) NOT NULL,
+--     description TINYTEXT,
+--     price DECIMAL(10,2),
+--     imageURL VARCHAR(255),
+--     category VARCHAR(100) NOT NULL,
+--     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
-CREATE TABLE IF NOT EXISTS shoppingCart (
-	userId INT(5),
-    productId INT(5),
-    quantity INT,
-    PRIMARY KEY (userId, productId) 
-);
+-- CREATE TABLE IF NOT EXISTS shoppingCart (
+-- 	userId INT(5),
+--     productId INT(5),
+--     quantity INT,
+--     PRIMARY KEY (userId, productId) 
+-- );
 
-CREATE TABLE IF NOT EXISTS orders (
-	orderId INT(10) AUTO_INCREMENT PRIMARY KEY,
-    userId INT(5),
-    address VARCHAR(500),
-    totalPrice DECIMAL(10,2),
-    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- CREATE TABLE IF NOT EXISTS orders (
+-- 	orderId INT(10) AUTO_INCREMENT PRIMARY KEY,
+--     userId INT(5),
+--     address VARCHAR(500),
+--     totalPrice DECIMAL(10,2),
+--     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
-CREATE TABLE IF NOT EXISTS premiumOrders (
-	orderId INT(10) AUTO_INCREMENT PRIMARY KEY,
-    userId INT(5) NOT NULL,
-    address VARCHAR(500) NOT NULL,
-    totalPrice DECIMAL(10,2) NOT NULL,
-    subscriptionId INT NOT NULL,
-    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TABLE IF NOT EXISTS productsInOrder (
-	orderId INT(5),
-    productId INT(5),
-    quantity INT,
-    totalPrice DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    PRIMARY KEY (orderId, productId) 
-);
+-- CREATE TABLE IF NOT EXISTS premiumOrders (
+-- 	orderId INT(10) AUTO_INCREMENT PRIMARY KEY,
+--     userId INT(5) NOT NULL,
+--     address VARCHAR(500) NOT NULL,
+--     totalPrice DECIMAL(10,2),
+--     subscriptionId INT NOT NULL,
+--     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
 
-
-CREATE TABLE IF NOT EXISTS subscriptions (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Use AUTO_INCREMENT for MySQL
-    user_id INT NOT NULL REFERENCES users(userId),
-    plan_name VARCHAR(255) NOT NULL,
-    start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    end_date TIMESTAMP,
-    next_order_date TIMESTAMP,
-    discount DECIMAL(5, 2),
-    status VARCHAR(255) DEFAULT 'active',
-    delivery_address TEXT
-);
+-- CREATE TABLE IF NOT EXISTS productsInOrder (
+-- 	orderId INT(5),
+--     productId INT(5),
+--     quantity INT,
+--     totalPrice DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+--     PRIMARY KEY (orderId, productId) 
+-- );
 
 
-CREATE TABLE IF NOT EXISTS premiumProductsInOrder (
-	orderId INT(5),
-    productId INT(5),
-    quantity INT,
-    totalPrice DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    PRIMARY KEY (orderId, productId) 
-);
+
+-- CREATE TABLE IF NOT EXISTS subscriptions (
+--     id INT AUTO_INCREMENT PRIMARY KEY,  -- Use AUTO_INCREMENT for MySQL
+--     user_id INT NOT NULL REFERENCES users(userId),
+--     plan_name VARCHAR(255) NOT NULL,
+--     start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     end_date TIMESTAMP,
+--     next_order_date TIMESTAMP,
+--     discount DECIMAL(5, 2),
+--     status VARCHAR(255) DEFAULT 'active',
+--     delivery_address TEXT
+-- );
 
 
-ALTER TABLE shoppingCart
-ADD FOREIGN KEY (userId) REFERENCES users (userId),
-ADD FOREIGN KEY (productId) REFERENCES product (productId);
+-- CREATE TABLE IF NOT EXISTS premiumProductsInOrder (
+-- 	orderId INT(5),
+--     productId INT(5),
+--     quantity INT,
+--     totalPrice DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+--     PRIMARY KEY (orderId, productId) 
+-- );
 
-ALTER TABLE orders
-ADD FOREIGN KEY (userId) REFERENCES users (userId);
 
-ALTER TABLE premiumOrders
-ADD FOREIGN KEY (userId) REFERENCES users (userId);
+-- ALTER TABLE shoppingCart
+-- ADD FOREIGN KEY (userId) REFERENCES users (userId),
+-- ADD FOREIGN KEY (productId) REFERENCES product (productId);
 
-ALTER TABLE productsInOrder
-ADD FOREIGN KEY (orderId) REFERENCES orders (orderId),
-ADD FOREIGN KEY (productId) REFERENCES product (productId);
+-- ALTER TABLE orders
+-- ADD FOREIGN KEY (userId) REFERENCES users (userId);
 
-ALTER TABLE premiumProductsInOrder
-ADD FOREIGN KEY (orderId) REFERENCES premiumOrders (orderId),
-ADD FOREIGN KEY (productId) REFERENCES premium_products (productId);
+-- ALTER TABLE premiumOrders
+-- ADD FOREIGN KEY (userId) REFERENCES users (userId);
+-- ADD FOREIGN KEY (subscriptionId) REFERENCES subscriptions (id);
+
+-- ALTER TABLE productsInOrder
+-- ADD FOREIGN KEY (orderId) REFERENCES orders (orderId),
+-- ADD FOREIGN KEY (productId) REFERENCES product (productId);
+
+-- ALTER TABLE premiumProductsInOrder
+-- ADD FOREIGN KEY (orderId) REFERENCES premiumOrders (orderId),
+-- ADD FOREIGN KEY (productId) REFERENCES premium_products (productId);
 
 
 -- INSERT INTO product (productId, name, description, price, imageURL, category, createdDate) VALUES
