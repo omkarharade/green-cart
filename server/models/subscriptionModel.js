@@ -37,21 +37,29 @@ exports.createSubscription = async (
 };
 
 exports.updateSubscription = async (subscriptionId, nextOrderDate, status) => {
-
-
     return new Promise((resolve, reject) => {
+        const query = "UPDATE subscriptions SET next_order_date = ?, status = ? WHERE id = ?";
         pool.query(
-            "UPDATE subscriptions SET next_order_date = ?, status = ? WHERE id = ?",
+            query,
             [nextOrderDate, status, subscriptionId],
-
             (err, result) => {
                 if (err) {
                     reject(err);
-                } else {
-
-                    console.log("result from update  query  === ", result);
-                    resolve(result);
+                    return; // Prevent further execution on error
                 }
+
+                // Retrieve the updated subscription data
+                pool.query(
+                    "SELECT * FROM subscriptions WHERE id = ?",
+                    [subscriptionId],
+                    (err, updatedSubscriptionResult) => {
+                        if (err) {
+                            reject(err); // Reject if retrieval fails
+                        } else {
+                            resolve(updatedSubscriptionResult[0]); // Resolve with the updated data
+                        }
+                    }
+                );
             }
         );
     });
