@@ -29,6 +29,8 @@ exports.addToCart = (req, res) => {
         });
 };
 
+exports.addPremiumToCart = 
+
 exports.removeFromCart = (req, res) => {
     const productId = req.params.productId;
     const userId = req.params.userId;

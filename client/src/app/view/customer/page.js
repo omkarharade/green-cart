@@ -67,6 +67,7 @@ const Slider = () => {
 	);
 };
 
+
 const ProductCard = ({ product, updateProductQuantity, addToCart }) => {
 	const [quantity, setQuantity] = useState(product.quantity || 0);
 	const [buttonText, setButtonText] = useState("Add to Cart"); // State for button text
@@ -92,8 +93,11 @@ const ProductCard = ({ product, updateProductQuantity, addToCart }) => {
 	};
 
 	const handleAddToCart = () => {
+
 		addToCart(product);
 		setButtonText("Added"); // Change the button text to "Added"
+
+		console.log("Adding product:", product);
 
 		setTimeout(() => {
 			setQuantity(0); // Reset the quantity to 0 after adding to cart
@@ -176,7 +180,6 @@ const Customer = () => {
 	const [cartProducts, setCartProducts] = useState([]);
 	const [userId, setUserId] = useState(null);
 	const [isReady, setIsReady] = useState(false);
-	const [selectedCategory, setSelectedCategory] = useState("All");
 	const [topPicks, setTopPicks] = useState([]);
 
 	useEffect(() => {
@@ -189,9 +192,8 @@ const Customer = () => {
 
 	useEffect(() => {
 		if (!isReady) return;
-		fetchProducts(selectedCategory);
 		fetchTopPicks();
-	}, [isReady, userId, selectedCategory]);
+	}, [isReady, userId]);
 
 	const fetchProducts = (category) => {
 		let url = `${NEXT_PUBLIC_APP_API_URL}api/products`;
@@ -238,15 +240,19 @@ const Customer = () => {
 	};
 
 	const updateProductQuantity = (e, productId) => {
-		const updatedList = productList.map((product) => {
-			if (product.productId === productId) {
-				return { ...product, quantity: parseInt(e.target.value) || 0 };
-			}
-			return product;
-		});
+		const updatedList = productList.map((product) => 
+			product.productId === productId ? { ...product, quantity: parseInt(e.target.value) || 0 } : product
+		);
 		setProductList(updatedList);
+	
+		const updatedTopPicks = { ...topPicks };
+		Object.keys(updatedTopPicks).forEach(category => {
+			updatedTopPicks[category] = updatedTopPicks[category].map(product =>
+				product.productId === productId ? { ...product, quantity: parseInt(e.target.value) || 0 } : product
+			);
+		});
+		setTopPicks(updatedTopPicks);
 	};
-
 	const fetchTopPicks = () => {
 		axios
 			.get("http://localhost:3001/api/products/get-top-picks")
@@ -273,84 +279,26 @@ const Customer = () => {
 						</h1>
 					)}
 					{topPicks && Object.keys(topPicks).length > 0 ? (
-						Object.keys(topPicks).map((category) => (
-							<div key={category} className="mb-6 mx-8">
-								<h3 className="text-xl font-semibold mb-2">{category}</h3>
-								<div className="flex flex-wrap gap-4">
-									{topPicks[category].map((product) => (
-										<ProductCard key={product.productId} product={product} />
-									))}
+						<div className="flex flex-col items-center justify-self-center bg-green-300 max-w-[100rem]">
+							{Object.keys(topPicks).map((category) => (
+								<div key={category} className="mb-6 mx-8">
+									<h3 className="text-xl font-semibold mb-2">{category}</h3>
+									<div className="flex flex-wrap gap-4">
+										{topPicks[category].map((product) => (
+											<ProductCard
+												key={product.productId}
+												product={product}
+												updateProductQuantity={updateProductQuantity}
+												addToCart={addToCart}
+											/>
+										))}
+									</div>
 								</div>
-							</div>
-						))
+							))}
+						</div>
 					) : (
 						<p className="text-center text-gray-500">No top picks available.</p>
 					)}
-
-					<div className="border-t border-gray-400 my-4"></div>
-
-					<div className="mt-[3rem] flex flex-col">
-						<h1 className="text-2xl font-bold text-center mb-4 mt-8">
-							All Products List
-						</h1>
-						{/* Category Filter Dropdown */}
-						<div className="flex justify-center mt-6">
-							<div className="relative w-72">
-								{" "}
-								{/* Wrapper div for positioning the arrow */}
-								<select
-									className="appearance-none border border-gray-300 py-3 px-6 w-full rounded-2xl focus:ring-2 focus:ring-green-500 bg-white shadow-md text-gray-700 font-medium cursor-pointer transition-all duration-300 hover:border-green-500 hover:shadow-lg"
-									value={selectedCategory}
-									onChange={(e) => setSelectedCategory(e.target.value)}
-								>
-									{categories.map((category, index) => (
-										<option
-											key={index}
-											value={category}
-											className="text-gray-800"
-										>
-											{category.charAt(0).toUpperCase() + category.slice(1)}
-										</option>
-									))}
-								</select>
-								{/* Custom dropdown arrow */}
-								<div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										className="w-5 h-5 text-gray-500 transition-all duration-300 group-hover:text-green-600"
-										viewBox="0 0 20 20"
-										fill="currentColor"
-									>
-										<path
-											fillRule="evenodd"
-											d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-											clipRule="evenodd"
-										/>
-									</svg>
-								</div>
-							</div>
-						</div>
-
-						{/* Product Sections */}
-						<div className="p-6">
-							{productList.length > 0 ? (
-								<div className="flex justify-center flex-wrap  gap-4">
-									{productList.map((product) => (
-										<ProductCard
-											key={product.productId}
-											product={product}
-											updateProductQuantity={updateProductQuantity}
-											addToCart={addToCart}
-										/>
-									))}
-								</div>
-							) : (
-								<p className="text-center text-gray-500">
-									No products available.
-								</p>
-							)}
-						</div>
-					</div>
 
 					{/* Footer */}
 					<div className="bg-green-700 text-white text-center p-4 mt-6">

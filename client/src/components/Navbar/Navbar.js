@@ -50,7 +50,8 @@ const Navbar = () => {
 	];
 
 	const customerNavLinks = [
-		{ name: "Products", route: "/view/customer" },
+		{ name: "Home", route: "/view/customer" },
+		{name: "Products", route: "/view/customer/products"},
 		{ name: "Past Orders", route: "/view/customer/orders" },
 	];
 

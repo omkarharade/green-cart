@@ -35,9 +35,9 @@ const CustomerOrders = () => {
 	return (
 		<div>
 			<div className="max-w-5xl mx-auto p-6">
-				<h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
-					My Orders
-				</h1>
+			<h1 className="text-2xl font-bold text-center mb-4 mt-8">
+				My Orders
+			</h1>
 				{Object.keys(groupedOrders).length > 0 ? (
 					Object.keys(groupedOrders).map((orderId) => {
 						const totalOrderCost = groupedOrders[orderId].reduce(
