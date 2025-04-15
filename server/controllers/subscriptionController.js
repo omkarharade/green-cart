@@ -19,27 +19,27 @@ exports.createSubscription = async (req, res) => {
 
 	const now = moment().tz("Asia/Kolkata"); // Get the current time in IST
 
-	// if (planName === "Deluxe Box") {
-	//   endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
-	//   nextOrderDate = moment(now).tz('Asia/Kolkata').toDate(); // Setting first order date to current time
-	// } else if (planName === 'Family Box') {
-	//   endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
-	//   nextOrderDate = moment(now).tz('Asia/Kolkata').toDate(); // Setting first order date to current time
-	// } else if (planName === 'Basic Box') { // added end date for basic box plan too
-	//   endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
-	//   nextOrderDate = moment(now).tz('Asia/Kolkata').toDate(); // Setting next order date to current time as it is non recurring plan type
-	// }
-
 	if (planName === "Deluxe Box") {
-		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
-	} else if (planName === "Family Box") {
-		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
-	} else if (planName === "Basic Box") {
-		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-		nextOrderDate = null // Even for Basic Box, set it to 2 minutes for testing
+	  endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
+	  nextOrderDate = moment(now).tz('Asia/Kolkata').toDate(); // Setting first order date to current time
+	} else if (planName === 'Family Box') {
+	  endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
+	  nextOrderDate = moment(now).tz('Asia/Kolkata').toDate(); // Setting first order date to current time
+	} else if (planName === 'Basic Box') { // added end date for basic box plan too
+	  endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
+	  nextOrderDate = null;
 	}
+
+	// if (planName === "Deluxe Box") {
+	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+	// 	nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
+	// } else if (planName === "Family Box") {
+	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+	// 	nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
+	// } else if (planName === "Basic Box") {
+	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+	// 	nextOrderDate = null // Even for Basic Box, set it to 2 minutes for testing
+	// }
 
 	// Calculate discount based on planName
 	let discount = 0;
@@ -183,39 +183,39 @@ exports.processSubscription = async (subscription, channel, config) => {
 		let nextOrderDate, delay;
         
 
-		// if (
-		// 	subscription.plan_name === "Deluxe Box" &&
-		// 	subscription.end_date > now
-		// ) {
-		// 	nextOrderDate = new Date(subscription.next_order_date);
-		// 	nextOrderDate.setDate(nextOrderDate.getDate() + 14);
-		// 	delay = nextOrderDate.getTime() - Date.now();
-		// } else if (
-		// 	subscription.plan_name === "Family Box" &&
-		// 	subscription.end_date > now
-		// ) {
-		// 	nextOrderDate = new Date(subscription.next_order_date);
-		// 	nextOrderDate.setMonth(nextOrderDate.getMonth() + 1);
-		// 	delay = nextOrderDate.getTime() - Date.now();
-		// }
+		if (
+			subscription.plan_name === "Deluxe Box" &&
+			endDate > now
+		) {
+			nextOrderDate = new Date(subscription.next_order_date);
+			nextOrderDate.setDate(nextOrderDate.getDate() + 14);
+			delay = nextOrderDate.getTime() - Date.now();
+		} else if (
+			subscription.plan_name === "Family Box" &&
+			endDate > now
+		) {
+			nextOrderDate = new Date(subscription.next_order_date);
+			nextOrderDate.setMonth(nextOrderDate.getMonth() + 1);
+			delay = nextOrderDate.getTime() - Date.now();
+		}
 
-        console.log("checkpoint 1 ======", "hii ")
+        // console.log("checkpoint 1 ======", "hii ")
 
-        console.log(subscription.end_date > now, "checkpoint 2")
-        console.log("subscription.end_date", endDate);
-        console.log("now", now);
-        if (subscription.plan_name === "Deluxe Box" && endDate > now) {
+        // console.log(subscription.end_date > now, "checkpoint 2")
+        // console.log("subscription.end_date", endDate);
+        // console.log("now", now);
+        // if (subscription.plan_name === "Deluxe Box" && endDate > now) {
 
-            nextOrderDate = new Date(subscription.next_order_date);
-            nextOrderDate.setMinutes(nextOrderDate.getMinutes() + 2); // Add 2 minutes
-            console.log("1 ==== next order date =====", nextOrderDate);
-            delay = nextOrderDate.getTime() - Date.now();
-        } else if (subscription.plan_name === "Family Box" && endDate > now) {
-            nextOrderDate = new Date(subscription.next_order_date);
-            nextOrderDate.setMinutes(nextOrderDate.getMinutes() + 2); // Add 2 minutes
-            console.log("1 ==== next order date =====", nextOrderDate);
-            delay = nextOrderDate.getTime() - Date.now();
-        } 
+        //     nextOrderDate = new Date(subscription.next_order_date);
+        //     nextOrderDate.setMinutes(nextOrderDate.getMinutes() + 2); // Add 2 minutes
+        //     console.log("1 ==== next order date =====", nextOrderDate);
+        //     delay = nextOrderDate.getTime() - Date.now();
+        // } else if (subscription.plan_name === "Family Box" && endDate > now) {
+        //     nextOrderDate = new Date(subscription.next_order_date);
+        //     nextOrderDate.setMinutes(nextOrderDate.getMinutes() + 2); // Add 2 minutes
+        //     console.log("1 ==== next order date =====", nextOrderDate);
+        //     delay = nextOrderDate.getTime() - Date.now();
+        // } 
 
 
 		let updatedStatus = "active";
@@ -246,4 +246,25 @@ exports.processSubscription = async (subscription, channel, config) => {
 		console.error("Error processing order:", error);
 		// ... Implement robust error handling (retry, dead-letter queue, etc.)
 	}
+};
+
+
+exports.getPremiumProductsByType = (req, res) => { // Removed async since we're using promises now
+    const subscriptionType = req.params.subscriptionType;
+
+    if (!subscriptionType) {
+        return res.status(400).json({ error: "subscriptionType is required" });
+    }
+
+
+    getPremiumProductsByType(subscriptionType) // Call the model function and use .then/.catch
+        .then(products => {
+            res.json(products);
+        })
+        .catch(error => {
+            console.error("Error fetching premium products:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        });
+
+
 };

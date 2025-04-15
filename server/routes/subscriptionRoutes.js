@@ -8,6 +8,7 @@ const { withChannel } = require("../middlewares/messageChannel");
 module.exports = (channel) => {  // The route now accepts the channel as an argument
 
   router.post("/", withChannel(channel), subscriptionController.createSubscription);
+  router.get("/:subscriptionType", subscriptionController.getPremiumProductsByType)
 
 return router;
 };

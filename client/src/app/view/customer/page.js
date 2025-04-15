@@ -279,7 +279,7 @@ const Customer = () => {
 						</h1>
 					)}
 					{topPicks && Object.keys(topPicks).length > 0 ? (
-						<div className="flex flex-col items-center justify-self-center bg-green-300 max-w-[100rem]">
+						<div className="flex flex-col items-center justify-self-center max-w-[100rem]">
 							{Object.keys(topPicks).map((category) => (
 								<div key={category} className="mb-6 mx-8">
 									<h3 className="text-xl font-semibold mb-2">{category}</h3>
