@@ -2,6 +2,8 @@ const express = require("express");
 const subscriptionModel = require("../models/subscriptionModel");
 const moment = require("moment-timezone");
 const { getPremiumProductsByType } = require("../models/premiumProductModel");
+const { cancelSubscriptionByType, getDetailsByType } = require("../models/subscriptionModel");
+
 const {
 	EXCHANGE_NAME,
 	ROUTING_KEY,
@@ -267,4 +269,42 @@ exports.getPremiumProductsByType = (req, res) => { // Removed async since we're 
         });
 
 
+};
+
+exports.cancelSubscription = (req, res) => { 
+    const { userId, planName } = req.body;
+
+    cancelSubscriptionByType(userId, planName)
+        .then(result => {
+            res.json({ message: "Subscription cancelled successfully", deletedCount: result.affectedRows });
+        })
+        .catch(error => {
+            if (error.message === "Subscription not found.") {
+                return res.status(404).json({ error: "Subscription not found." });
+            }
+            console.error("Error cancelling subscription:", error);
+            res.status(500).json({ error: "Failed to cancel subscription" });
+        });
+};
+
+exports.getDetails = (req, res) => {
+    const userId = req.params.userId; 
+    const planName = req.params.planName; 
+
+    if (!userId || !planName) { // Input validation
+        return res.status(400).json({ error: "userId and planName are required" });
+    }
+
+
+    getDetailsByType(userId, planName)
+        .then(subscriptionDetails => {
+            res.json(subscriptionDetails); // Send the subscription details
+        })
+        .catch(error => {
+            if (error.message === "Subscription not found.") { // Specific error handling for "not found"
+                return res.status(404).json({ error: "Subscription not found.", data : error.data});
+            }
+            console.error("Error fetching subscription details:", error);
+            res.status(500).json({ error: "Failed to fetch subscription details" });// General error handling
+        });
 };

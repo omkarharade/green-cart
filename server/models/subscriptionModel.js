@@ -64,3 +64,45 @@ exports.updateSubscription = async (subscriptionId, nextOrderDate, status) => {
         );
     });
 };
+
+
+exports.getDetailsByType = async (userId, planName) => {
+    return new Promise((resolve, reject) => {
+        const query = "SELECT * FROM subscriptions WHERE user_id = ? AND plan_name = ? AND status = ?"; // Parameterized query
+        pool.query(query, [userId, planName, "active"], (err, result) => {
+            if (err) {
+                reject(err); 
+                return; 
+            }
+
+            if (result.length === 0) { // Check if no subscription is found
+                reject({ message: "Subscription not found.", data: [] }); 
+                return; 
+            }
+
+            resolve({
+				message : "Subscription found", data : [result[0]]}); // Resolve with the first element of result (the subscription details)
+        });
+    });
+};
+
+
+exports.cancelSubscriptionByType = async (userId, planName) => {
+    return new Promise((resolve, reject) => {
+        const query = "DELETE FROM subscriptions WHERE user_id = ? AND plan_name = ?"; // Use parameterized query for security
+        pool.query(query, [userId, planName], (err, result) => {
+            if (err) {
+                reject(err); // Reject the promise if there's a database error
+                return; // Important: stop further execution
+            }
+
+			if (result.affectedRows === 0) {
+				reject({ message: "Subscription not found." }); // Reject if no rows are affected (subscription not found)
+				return; // Important: Stop further execution
+			}
+
+            resolve(result); // Resolve with the result object which contains affectedRows etc, indicating successful deletion
+
+        });
+    });
+};
