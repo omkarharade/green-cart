@@ -93,7 +93,7 @@ const Navbar = () => {
 						)}
 
 						{/* Search Bar with Search Icon on the right */}
-						<div className="relative">
+						{/* <div className="relative">
 							<input
 								type="text"
 								placeholder="Search..."
@@ -102,7 +102,7 @@ const Navbar = () => {
 							<div className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer">
 								<Search className="h-5 w-5 text-gray-600" />
 							</div>
-						</div>
+						</div> */}
 
 						{/* User Icon with Clickable Dropdown */}
 						<div className="relative">

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NEXT_PUBLIC_APP_API_URL} from "../../../../apiConfig";
 import formatDateIST from "../../../../utils/formatDateIST";
+import { imagePlaceHolder } from "../../../../utils/stringConstants";
 
 const CustomerOrders = () => {
 	const [orders, setOrders] = useState([]);
@@ -66,7 +67,7 @@ const CustomerOrders = () => {
 											style={{ width: "250px"}} // Fixed Width & Height
 										>
 											<img
-												src={order.imageURL}
+												src={order.imageURL ? order.imageURL : imagePlaceHolder}
 												alt={order.name}
 												className="w-[230px] h-[230px] object-cover rounded-md mb-3"
 											/>

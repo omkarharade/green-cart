@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { NEXT_PUBLIC_APP_API_URL } from "../../../../apiConfig";
+import {imagePlaceHolder} from "../../../../utils/stringConstants"
 
 const categories = [
 	"All",
@@ -58,7 +59,7 @@ const ProductCard = ({ product, updateProductQuantity, addToCart }) => {
 		<div className="border rounded-lg shadow-lg p-4 bg-white flex flex-col items-center justify-between w-[270px] mx-5 my-5">
 			{/* Product Image */}
 			<img
-				src={product.imageURL}
+				src={product.imageURL? product.imageURL : imagePlaceHolder}
 				alt={product.name}
 				className="w-[250px] h-[250px] object-cover rounded-md"
 			/>
