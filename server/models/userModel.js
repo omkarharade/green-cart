@@ -54,6 +54,8 @@ exports.login = (email, password) => {
             "SELECT userId, password, isAdmin FROM users WHERE email = ?;",
             [email],
             (err, result) => {
+
+                console.log("logging error >> ", err);
                 if (err) {
                     reject(err);
                 } else {

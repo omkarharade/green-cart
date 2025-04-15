@@ -42,8 +42,14 @@ function Login() {
           }
         })
         .catch((err) => {
-          // Set error from API response if available, otherwise use a generic message
-          setError(err || "Something went wrong. Please try again.");
+          if (err.response && err.response.data && typeof err.response.data.message === 'string') {
+            setError(err.response.data.message); // Use message if it's a string
+          } else if(err.response && err.response.data && typeof err.response.data === 'string') {
+            setError(err.response.data) // Handles if the entire data is a string message.
+          } else {
+            setError("An error occurred during login."); // Generic message if the error format is unexpected
+            console.error("Login Error:", err);  // Log the full error object for debugging
+          }
         });
     }
   }
