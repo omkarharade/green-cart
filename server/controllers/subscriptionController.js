@@ -21,6 +21,9 @@ exports.createSubscription = async (req, res) => {
 
 	const now = moment().tz("Asia/Kolkata"); // Get the current time in IST
 
+
+	// actual plan duration code 
+
 	if (planName === "Deluxe Box") {
 	  endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
 	  nextOrderDate = moment(now).tz('Asia/Kolkata').toDate(); // Setting first order date to current time
@@ -32,16 +35,19 @@ exports.createSubscription = async (req, res) => {
 	  nextOrderDate = null;
 	}
 
-	// if (planName === "Deluxe Box") {
-	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-	// 	nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
-	// } else if (planName === "Family Box") {
-	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-	// 	nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
-	// } else if (planName === "Basic Box") {
-	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-	// 	nextOrderDate = null // Even for Basic Box, set it to 2 minutes for testing
-	// }
+
+	// testing plan duration code below 
+
+	if (planName === "Deluxe Box") {
+		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
+	} else if (planName === "Family Box") {
+		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
+	} else if (planName === "Basic Box") {
+		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+		nextOrderDate = null // Even for Basic Box, set it to 2 minutes for testing
+	}
 
 	// Calculate discount based on planName
 	let discount = 0;
@@ -183,7 +189,10 @@ exports.processSubscription = async (subscription, channel, config) => {
 		let now = new Date();
         let endDate = new Date(subscription.end_date);
 		let nextOrderDate, delay;
-        
+
+
+		// actual plan duration code below 
+
 
 		if (
 			subscription.plan_name === "Deluxe Box" &&
@@ -200,6 +209,12 @@ exports.processSubscription = async (subscription, channel, config) => {
 			nextOrderDate.setMonth(nextOrderDate.getMonth() + 1);
 			delay = nextOrderDate.getTime() - Date.now();
 		}
+
+
+		// testing plan duration code below 
+
+
+
 
         // console.log("checkpoint 1 ======", "hii ")
 
