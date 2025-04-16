@@ -57,6 +57,7 @@
 --     id INT AUTO_INCREMENT PRIMARY KEY,  -- Use AUTO_INCREMENT for MySQL
 --     user_id INT NOT NULL REFERENCES users(userId),
 --     plan_name VARCHAR(255) NOT NULL,
+--     plan_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
 --     start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 --     end_date TIMESTAMP,
 --     next_order_date TIMESTAMP,

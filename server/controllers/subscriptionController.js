@@ -13,7 +13,7 @@ const {
 const { default: axios } = require("axios");
 
 exports.createSubscription = async (req, res) => {
-	const { userId, planName, address } = req.body;
+	const { userId, planName, planPrice, address } = req.body;
 	const channel = req.channel;
 
 	// Calculate endDate and nextOrderDate based on planName
@@ -31,23 +31,23 @@ exports.createSubscription = async (req, res) => {
 	  endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
 	  nextOrderDate = moment(now).tz('Asia/Kolkata').toDate(); // Setting first order date to current time
 	} else if (planName === 'Basic Box') { // added end date for basic box plan too
-	  endDate = moment(now).add(6, 'months').tz('Asia/Kolkata').toDate();
+		endDate = moment(now).add(1, 'minute').tz('Asia/Kolkata').toDate();
 	  nextOrderDate = null;
 	}
 
 
 	// testing plan duration code below 
 
-	if (planName === "Deluxe Box") {
-		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
-	} else if (planName === "Family Box") {
-		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-		nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
-	} else if (planName === "Basic Box") {
-		endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
-		nextOrderDate = null // Even for Basic Box, set it to 2 minutes for testing
-	}
+	// if (planName === "Deluxe Box") {
+	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+	// 	nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
+	// } else if (planName === "Family Box") {
+	// 	endDate = moment(now).add(6, "months").tz("Asia/Kolkata").toDate();
+	// 	nextOrderDate = moment(now).add(2, "minutes").tz("Asia/Kolkata").toDate(); // Set nextOrderDate 2 minutes in the future
+	// } else if (planName === "Basic Box") {
+	// 	endDate = moment(now).add(1, 'minute').tz('Asia/Kolkata').toDate();
+	// 	nextOrderDate = null // Even for Basic Box, set it to 2 minutes for testing
+	// }
 
 	// Calculate discount based on planName
 	let discount = 0;
@@ -71,6 +71,7 @@ exports.createSubscription = async (req, res) => {
 		.createSubscription(
 			userId,
 			planName,
+			planPrice,
 			address,
 			endDate,
 			nextOrderDate,

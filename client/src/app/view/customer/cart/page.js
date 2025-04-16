@@ -55,7 +55,7 @@ const ShoppingCart = (props) => {
 		const token = sessionStorage.getItem("jwt_token");
 
 		if (!token) {
-			alert("Authorization token is missing");
+			alert("Authorization token is missing, login again");
 			return;
 		}
 

@@ -4,6 +4,7 @@ const pool = require("../database/connection");
 exports.createSubscription = async (
 	userId,
 	planName,
+    planPrice,
 	address,
 	endDate,
 	nextOrderDate,
@@ -12,8 +13,8 @@ exports.createSubscription = async (
 
 	return new Promise((resolve, reject) => {
 		pool.query(
-			"INSERT INTO subscriptions (user_id, plan_name, end_date, next_order_date, discount, delivery_address) VALUES (?, ?, ?, ?, ?, ?)",
-			[userId, planName, endDate, nextOrderDate, discount, address],
+			"INSERT INTO subscriptions (user_id, plan_name, plan_price, end_date, next_order_date, discount, delivery_address) VALUES (?, ?, ?, ?, ?, ?, ?)",
+			[userId, planName, planPrice, endDate, nextOrderDate, discount, address],
 			(err, result) => {
 				if (err) {
 					reject(err);
