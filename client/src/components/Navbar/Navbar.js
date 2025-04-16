@@ -54,6 +54,7 @@ const Navbar = () => {
 		{name: "Products", route: "/view/customer/products"},
 		{ name: "Past Orders", route: "/view/customer/orders" },
 		{ name: "Subscription", route: "/view/customer/subscriptions" },
+		{ name: "About Us", route: "/view/customer/about"}
 	];
 
 	// Only show Navbar on non-login/signup pages

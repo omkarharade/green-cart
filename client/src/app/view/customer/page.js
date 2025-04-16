@@ -18,17 +18,17 @@ const Slider = () => {
 		{
 			src: "slide1.jpg",
 			text: "Sustainable Living is Easy",
-			button: "SHOP SUSTAINABLE →",
+			// button: "SHOP SUSTAINABLE →",
 		},
 		{
 			src: "slide2.jpg",
 			text: "Choose Planet Over Plastic",
-			button: "SHOP BETTER →",
+			// button: "SHOP BETTER →",
 		},
 		{
 			src: "slide3.jpg",
 			text: "Green Living Solutions",
-			button: "EXPLORE NOW →",
+			// button: "EXPLORE NOW →",
 		},
 	];
 
@@ -55,9 +55,9 @@ const Slider = () => {
 						{i === currentIndex && ( // Only render text for the active slide
 							<div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
 								<h2 className="text-3xl font-bold mb-2">{slide.text}</h2>
-								<button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg">
+								{/* <button className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg">
 									{slide.button}
-								</button>
+								</button> */}
 							</div>
 						)}
 					</div>
