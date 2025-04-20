@@ -136,27 +136,26 @@
 
 -- INSERT INTO premium_products (name, price, description, imageURL, category, subscription_type, quantity)
 -- VALUES 
--- ('Organic Cotton Towels', 25.99, 'Set of two luxurious organic cotton bath towels.', 'https://m.media-amazon.com/images/I/71Lkxzc5DTL.jpg', 'personal care', 'Deluxe Box', 2),  -- Example for Deluxe Box
--- ('Natural Hand Cream', 12.50, 'Hand cream infused with natural oils.', 'https://rukminim2.flixcart.com/image/850/1000/xif0q/moisturizer-cream/i/b/m/50-natural-vanilla-hand-cream-50g-for-dry-rough-hands-original-imah2uxeu5fbvryv.jpeg?q=90&crop=false', 'personal care', 'Family Box', 3), -- Example for Family Box
--- ('Bamboo Utensil Set', 18.00, 'Eco-friendly bamboo utensil set.', 'https://www.kroger.com/product/images/large/bottom/0074283938750', 'kitchen essentials', 'Deluxe Box', 1)
+-- ('Organic Cotton Towels', 300.00, 'Set of two luxurious organic cotton bath towels.', 'https://m.media-amazon.com/images/I/71Lkxzc5DTL.jpg', 'personal care', 'Deluxe Box', 2),  -- Example for Deluxe Box
+-- ('Natural Hand Cream', 250.00, 'Hand cream infused with natural oils.', 'https://rukminim2.flixcart.com/image/850/1000/xif0q/moisturizer-cream/i/b/m/50-natural-vanilla-hand-cream-50g-for-dry-rough-hands-original-imah2uxeu5fbvryv.jpeg?q=90&crop=false', 'personal care', 'Family Box', 3), -- Example for Family Box
+-- ('Bamboo Utensil Set', 700.00, 'Eco-friendly bamboo utensil set.', 'https://www.kroger.com/product/images/large/bottom/0074283938750', 'kitchen essentials', 'Deluxe Box', 1)
+ 
+-- INSERT INTO premium_products (name, description, price, imageURL, category, subscription_type, quantity) VALUES
+-- ('Eco-Friendly All-Purpose Cleaner', 'Plant-based cleaner for all surfaces.', 200.00, 'https://m.media-amazon.com/images/I/518PhE+YYnL.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Natural Disinfecting Spray', 'Kills germs naturally.', 400.00, 'https://m.media-amazon.com/images/I/5124xhPMRxL.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Concentrated Laundry Detergent', 'Eco-friendly concentrated laundry detergent.', 350.00, 'https://m.media-amazon.com/images/I/71r4Eb-Wl1L.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Biodegradable Cleaning Wipes', 'Cleans and disinfects with biodegradable wipes.', 150.00, 'https://m.media-amazon.com/images/I/51zSjxZTZvS.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2);
 
 
 -- INSERT INTO premium_products (name, description, price, imageURL, category, subscription_type, quantity) VALUES
--- ('Eco-Friendly All-Purpose Cleaner', 'Plant-based cleaner for all surfaces.', 99, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Natural Disinfecting Spray', 'Kills germs naturally.', 549, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Concentrated Laundry Detergent', 'Eco-friendly concentrated laundry detergent.', 109, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Biodegradable Cleaning Wipes', 'Cleans and disinfects with biodegradable wipes.', 62, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2);
-
-
--- INSERT INTO premium_products (name, description, price, imageURL, category, subscription_type, quantity) VALUES
--- ('Aromatherapy Candle', 'Relax and unwind with calming scents.', 18.99, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Bath Salts', 'Soothe sore muscles with mineral-rich bath salts.', 11.49, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Meditation Cushion', 'Comfortable cushion for meditation practice.', 29.99, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Herbal Tea Sampler', 'Variety pack of calming herbal teas.', 9.99, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2);
+-- ('Aromatherapy Candle', 'Relax and unwind with calming scents.', 300.00, 'https://m.media-amazon.com/images/I/81MkDONQUYL.jpg', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Bath Salts', 'Soothe sore muscles with mineral-rich bath salts.', 100.00, 'https://images.pexels.com/photos/1298624/pexels-photo-1298624.jpeg?auto=compress&cs=tinysrgb&w=600', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Meditation Cushion', 'Comfortable cushion for meditation practice.', 800.00, 'https://m.media-amazon.com/images/I/71aBYKcaRvL._SL1500_.jpg', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Herbal Tea Sampler', 'Variety pack of calming herbal teas.', 700.00, 'https://m.media-amazon.com/images/I/81+7w3w9nJL.jpg', 'wellness', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2);
 
 -- -- More Lifestyle (Premium)
 -- INSERT INTO premium_products (name, description, price, imageURL, category, subscription_type, quantity) VALUES
--- ('Reusable Coffee Cup', 'Reduce waste with a stylish reusable cup.', 14.99, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Shopping Bag', 'Large, reusable shopping bag.', 11.99, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Planner', 'Stay organized with a weekly planner.', 8.49, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
--- ('Book Stand', 'Holds books for hands-free reading.', 19.29, 'https://archive.org/download/placeholder-image//placeholder-image.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2);
+-- ('Reusable Coffee Cup', 'Reduce waste with a stylish reusable cup.', 80.00, 'https://m.media-amazon.com/images/I/61eNUMzmNTL._AC_UF1000,1000_QL80_.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Shopping Bag', 'Large, reusable shopping bag.', 100.00, 'https://m.media-amazon.com/images/I/71LAwoSQKEL._AC_UY1100_.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Planner', 'Stay organized with a weekly planner.', 150.00, 'https://m.media-amazon.com/images/I/81ltiFm1TOL.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),
+-- ('Book Stand', 'Holds books for hands-free reading.', 1000.00, 'https://m.media-amazon.com/images/I/61ewEvPy2wL._AC_UF894,1000_QL80_.jpg', 'lifestyle', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2);
