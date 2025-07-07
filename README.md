@@ -5,6 +5,16 @@
 - While the Backend uses **Node.js**, **Express.js**, and **MySQL**.
 
 ---
+![](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript&logoColor=white)
+![](https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![](https://img.shields.io/badge/MySQL-3982CE?style=for-the-badge&logo=MySQL&logoColor=white)
+![](https://img.shields.io/badge/rabbitmq-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white)
+
+
 
 ## 🖼️ Project Preview
 
@@ -41,6 +51,8 @@ Here are some preview images from the project:
 
 ### 📬 Check Orders View
 ![Admin Check Orders Page](./project%20images/AdminViewOrders.jpg)
+![Admin Check Orders Page](./project%20images/AdminViewOrders.jpg)
+![Admin View Details Orders Page](./project%20images/AdminViewOrderDetail.jpg)
 
 ---
 
