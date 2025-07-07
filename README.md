@@ -1,7 +1,8 @@
-# 🌿 Green Living - Eco-Friendly E-commerce Website
+# 🌿 Green Living - Eco-Friendly E-commerce Website ( Automated Ordering Implementation using Message Queues - [RabbitMQ] )
 
-Welcome to **Green Living**, an eco-conscious e-commerce platform designed to promote sustainable and green products. Built Frontend using **React**, **Next.js**, and **Tailwind CSS**, this project showcases clean UI, responsive design, and a modular structure.  
-While the Backend uses **Node.js**, **Express.js**, and **MySQL**.
+- Welcome to **Green Living**, an eco-conscious e-commerce platform designed to promote sustainable and green products. 
+- Built Frontend using **React**, **Next.js**, and **Tailwind CSS**, this project showcases clean UI, responsive design, and a modular structure.  
+- While the Backend uses **Node.js**, **Express.js**, and **MySQL**.
 
 ---
 
