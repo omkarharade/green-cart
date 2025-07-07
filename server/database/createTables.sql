@@ -18,6 +18,28 @@
 --     createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
+CREATE TABLE IF NOT EXISTS premium_products (
+    productId INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    price DECIMAL(10, 2),
+    description TEXT,
+    imageURL TEXT,
+    category VARCHAR(255),
+    subscription_type VARCHAR(255),
+    quantity INT DEFAULT 1  -- Added quantity column here
+);
+
+-- CREATE TABLE IF NOT EXISTS premium_products (
+--     productId INT AUTO_INCREMENT PRIMARY KEY,
+--     name VARCHAR(255),
+--     price DECIMAL(10, 2),
+--     description TEXT,
+--     imageURL TEXT,
+--     category VARCHAR(255),
+--     subscription_type VARCHAR(255),
+--     quantity INT DEFAULT 1  -- Added quantity column here
+-- );
+
 -- CREATE TABLE IF NOT EXISTS shoppingCart (
 -- 	userId INT(5),
 --     productId INT(5),
@@ -84,7 +106,7 @@
 -- ADD FOREIGN KEY (userId) REFERENCES users (userId);
 
 -- ALTER TABLE premiumOrders
--- ADD FOREIGN KEY (userId) REFERENCES users (userId);
+-- ADD FOREIGN KEY (userId) REFERENCES users (userId),
 -- ADD FOREIGN KEY (subscriptionId) REFERENCES subscriptions (id);
 
 -- ALTER TABLE productsInOrder
@@ -138,7 +160,7 @@
 -- VALUES 
 -- ('Organic Cotton Towels', 300.00, 'Set of two luxurious organic cotton bath towels.', 'https://m.media-amazon.com/images/I/71Lkxzc5DTL.jpg', 'personal care', 'Deluxe Box', 2),  -- Example for Deluxe Box
 -- ('Natural Hand Cream', 250.00, 'Hand cream infused with natural oils.', 'https://rukminim2.flixcart.com/image/850/1000/xif0q/moisturizer-cream/i/b/m/50-natural-vanilla-hand-cream-50g-for-dry-rough-hands-original-imah2uxeu5fbvryv.jpeg?q=90&crop=false', 'personal care', 'Family Box', 3), -- Example for Family Box
--- ('Bamboo Utensil Set', 700.00, 'Eco-friendly bamboo utensil set.', 'https://www.kroger.com/product/images/large/bottom/0074283938750', 'kitchen essentials', 'Deluxe Box', 1)
+-- ('Bamboo Utensil Set', 700.00, 'Eco-friendly bamboo utensil set.', 'https://www.kroger.com/product/images/large/bottom/0074283938750', 'kitchen essentials', 'Deluxe Box', 1);
  
 -- INSERT INTO premium_products (name, description, price, imageURL, category, subscription_type, quantity) VALUES
 -- ('Eco-Friendly All-Purpose Cleaner', 'Plant-based cleaner for all surfaces.', 200.00, 'https://m.media-amazon.com/images/I/518PhE+YYnL.jpg', 'cleaning supplies', IF(RAND() > 0.5, 'Deluxe Box', 'Family Box'), FLOOR(RAND() * 2) + 2),

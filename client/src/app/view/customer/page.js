@@ -255,7 +255,7 @@ const Customer = () => {
 	};
 	const fetchTopPicks = () => {
 		axios
-			.get("http://localhost:3001/api/products/get-top-picks")
+			.get(`${NEXT_PUBLIC_APP_API_URL}api/products/get-top-picks`)
 			.then((res) => {
 				const groupedProducts = res.data.reduce((acc, product) => {
 					if (!acc[product.category]) acc[product.category] = [];
